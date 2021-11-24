@@ -8,6 +8,7 @@ export default class RegisterEstate extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+                success: false,
                 idClient : [],
                 dataClient: {
                     dni: [],
@@ -36,8 +37,8 @@ export default class RegisterEstate extends React.Component{
         this.GetClient = new GetClient()
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmitForm = this.handleSubmitForm.bind(this)
-        this.handleSubmitForm = this.handleSearchClient.bind(this)
-        }
+        this.handleSearchClient = this.handleSearchClient.bind(this)
+    }
     
         handleChange(e){
             this.setState( {[e.target.name]: e.target.value} )
@@ -72,17 +73,32 @@ export default class RegisterEstate extends React.Component{
         handleSearchClient(e) {
             e.preventDefault()
             const clientID = this.state.idClient
+            console.log(this.state.idClient)
             const data = this.GetClient.getClientByID(clientID)
-            this.setState(
-                {dataClient: 
-                    {dni: data.dni,
-                    nombres: data.nombres,
-                    apellidos: data.apellidos,
-                    email: data.email,
-                    telefono: data.telefono
-                    }
+            if (data){
+                console.log(data)
+                this.setState(prevState => {
+                    let dataClient = Object.assign({}, prevState.dataClient);  
+                    dataClient.dni = data.dni; 
+                    dataClient.nombres = data.nombres 
+                    dataClient.apellidos = data.apellidos
+                    dataClient.email = data.email   
+                    dataClient.telefono = data.telefono                                   
+                    return { dataClient };                                 
+                  })
+            }
+            else{
+                this.setState(prevState => {
+                    let dataClient = Object.assign({}, prevState.dataClient);  // creating copy of state variable jasper
+                    dataClient.dni = 952222; 
+                    dataClient.nombres = 'Juan Ignacio'                    // update the name property, assign a new value                 
+                    return { dataClient };                                 // return new object jasper object
+                  })
+                console.log('hola')
+                const success = this.state.success
+                this.setState({success: !success}) 
                 }
-                )
+            console.log(this.state.dataClient)
         }
 
     render(){
@@ -101,11 +117,11 @@ export default class RegisterEstate extends React.Component{
                                     <FormGroup className='w-100' >
                                     <InputGroup>
                                         <FormControl value={this.state.idClient} name='idClient' type='number' className='shadow-none' style={{backgroundColor: 'transparent', outline: 'none', border: 'none', borderBottom: 'solid 1px gray'}} onChange={this.handleChange}/>
-                                        <Button onClick={this.handleSearchClient} >Buscar</Button>
+                                        <Button onClick={this.handleSearchClient} type='search' >Buscar</Button>
                                     </InputGroup>
                                     </FormGroup>
                                     </FormGroup>
-                                    {!this.state.dataClient && 
+                                    {this.state.success && 
                                     (
                                     <>
                                     <FormGroup className='w-100 mx-5'>

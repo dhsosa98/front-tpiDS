@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:8080/login'
+const baseUrl = 'http://localhost:8000/login'
 
 export default class GetUser {
     fetchUser(credentials) {

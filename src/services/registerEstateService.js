@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = 'localhost:8080/api/v1/registrarPropiedad'
+const baseURL = 'localhost:8000/api/v1/registrarPropiedad'
 
 export default class ServRegisterEstate {
     fetchEstate(estate){
