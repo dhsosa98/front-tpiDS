@@ -1,0 +1,25 @@
+.nav-item{
+    cursor: pointer;
+    color: #9FA2B4;
+    padding: 12px 0px 12px 30px;
+    text-decoration: none;
+    border-bottom: 0.2px solid #2c2d2f;
+    font-size: 1.2em;
+}
+
+.nav-item:hover{
+    background-color: #4a4b57;
+    color: #DDE2FF;
+    border-left: 3px solid #ffffff;
+}
+
+.link-item{
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
+.link-item:hover{
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
