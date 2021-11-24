@@ -1,19 +1,17 @@
-import axios from 'axios'
-const baseUrl = 'http://localhost:8000/login'
 
 export default class GetUser {
     fetchUser(credentials) {
-        axios.post(baseUrl, credentials).then(res => {
-            if (res.data.data.status) {
-                  const token = 'Bearer ' + res.data.data.token
-                  sessionStorage.setItem('token', token)
-                  sessionStorage.setItem('user', credentials.username)
-                  return true
-            }
-            else{
-                alert(res.data.data.errors)
-            }
-        })
-    }
+        const user = {
+            email: 'inmb@domus.com',
+            password: '1234imb',
+            role: 'Agente Inmobiliario'
+        }
+        console.log(credentials)
+         if ((credentials.email) == (user.email) && (credentials.password) == (user.password)) {
+             sessionStorage.setItem('role', user.role)
+             console.log('Aqui estoyy')
+         }
+         else alert('Usuario o contraseña incorrecta')
+        }
 }
 

@@ -1,14 +1,13 @@
+import axios from 'axios'
 import React from 'react'
-import {Button, FormControl, FormGroup, FormLabel, InputGroup} from 'react-bootstrap'
+import {Alert, Button, FormControl, FormGroup, FormLabel, InputGroup, Modal} from 'react-bootstrap'
 import { Container, Form } from 'react-bootstrap'
-import GetClient from '../../../services/getClient'
-import ServRegisterEstate from '../../../services/registerEstateService'
 
 export default class RegisterEstate extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-                success: false,
+                search: false,
                 idClient : [],
                 dataClient: {
                     dni: [],
@@ -18,7 +17,8 @@ export default class RegisterEstate extends React.Component{
                     telefono: []
                 },
                 tipo: 'Alquiler',
-                medidas: [],
+                medida1: [],
+                medida2: [],
                 monto: [],
                 antiguedad: [],
                 amueblado: 'SI',
@@ -33,8 +33,7 @@ export default class RegisterEstate extends React.Component{
                 piso: [],
                 dpto: []
         }
-        this.serviceRegisterEstate = new ServRegisterEstate()
-        this.GetClient = new GetClient()
+        this.isDisabled = true
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmitForm = this.handleSubmitForm.bind(this)
         this.handleSearchClient = this.handleSearchClient.bind(this)
@@ -46,65 +45,104 @@ export default class RegisterEstate extends React.Component{
     
         handleSubmitForm(e) {
             e.preventDefault()
-            dataUbicacion = {
+            const baseURLUbication = 'http://localhost:8080/api/v1/registrarUbicacion'
+            const baseURLEstate = 'http://localhost:8080/api/v1/registrarPropiedad'
+            const dataUbicacion = {
                 pais: this.state.pais,
                 provincia: this.state.provincia,
                 ciudad: this.state.ciudad,
                 barrio: this.state.barrio,
                 direccion: this.state.direccion,
                 numero: this.state.numero,
-                piso: this.state.piso,
+                piso: this.state.piso, 
                 dpto: this.state.dpto
             }
-            estate = {
-                tipo: this.state.tipo,
-                medidas: this.state.medidas[0]+this.state.medidas[1],
-                monto: this.state.monto,
-                antiguedad: this.state.antiguedad,
-                amueblado: this.state.amueblado,
-                artefactos: this.state.artefactos,
-                servicios: this.state.servicios,
-                ubicacion: dataUbicacion,
-                propietario: this.state.dataClient
+            if (!dataUbicacion.piso.length) {
+                delete dataUbicacion["piso"]
             }
-            this.serviceRegisterEstate.fetchEstate(estate)
+            if (!dataUbicacion.barrio.length) {
+                delete dataUbicacion["barrio"]
+            }
+            if (!dataUbicacion.dpto.length) {
+                delete dataUbicacion["dpto"]
+            }
+            console.log(dataUbicacion)
+            alert('Desea Confirmar los cambios')
+            axios.post(baseURLUbication, dataUbicacion).then(
+                res => {
+                    console.log(res)
+                    const estate = {
+                        tipo: this.state.tipo,
+                        medidas: this.state.medida1+'x'+this.state.medida2,
+                        monto: this.state.monto,
+                        antiguedad: this.state.antiguedad,
+                        amueblado: this.state.amueblado,
+                        artefactos: this.state.artefactos,
+                        servicios: this.state.servicios,
+                        ubicacion: res.data.ubic,
+                        propietario: this.state.idClient
+                    }
+                    console.log(estate)
+                    axios.post(baseURLEstate, estate).then(
+                        res => {
+                            console.log(res)
+                            alert('Propiedad cargada con exito')
+                            window.location.reload(true);
+                        }
+                    )
+                }
+            )
+            
         }
         
         handleSearchClient(e) {
             e.preventDefault()
             const clientID = this.state.idClient
             console.log(this.state.idClient)
-            const data = this.GetClient.getClientByID(clientID)
-            if (data){
-                console.log(data)
-                this.setState(prevState => {
-                    let dataClient = Object.assign({}, prevState.dataClient);  
-                    dataClient.dni = data.dni; 
-                    dataClient.nombres = data.nombres 
-                    dataClient.apellidos = data.apellidos
-                    dataClient.email = data.email   
-                    dataClient.telefono = data.telefono                                   
-                    return { dataClient };                                 
-                  })
-            }
-            else{
-                this.setState(prevState => {
-                    let dataClient = Object.assign({}, prevState.dataClient);  // creating copy of state variable jasper
-                    dataClient.dni = 952222; 
-                    dataClient.nombres = 'Juan Ignacio'                    // update the name property, assign a new value                 
-                    return { dataClient };                                 // return new object jasper object
-                  })
-                console.log('hola')
-                const success = this.state.success
-                this.setState({success: !success}) 
-                }
-            console.log(this.state.dataClient)
+            const baseURL = 'http://localhost:8080/api/v1/propietarios/'
+            axios.get(baseURL + clientID).then(
+                res => {
+                        console.log(res.data)
+                        this.setState(prevState => {
+                            let dataClient = Object.assign({}, prevState.dataClient);  
+                            dataClient.dni = res.data.dni; 
+                            dataClient.nombres = res.data.nombres 
+                            dataClient.apellidos = res.data.apellidos
+                            dataClient.email = res.data.email   
+                            dataClient.telefono = res.data.telefono                                   
+                            return { dataClient };                                 
+                          })
+                        const search = this.state.search
+                        if (!this.state.search){
+                        this.setState({search: !search})}
+                        }
+                    )      
         }
+    
+        componentDidUpdate(){
+        if  (
+            !!this.state.dataClient.dni.length &&
+            !!this.state.pais.length &&
+            !!this.state.provincia.length &&
+            !!this.state.ciudad.length &&
+            !!this.state.direccion.length &&
+            !!this.state.numero.length &&
+            !!this.state.antiguedad.length &&
+            !!this.state.servicios.length &&
+            !!this.state.artefactos.length &&
+            !!this.state.medida1.length &&
+            !!this.state.medida2.length){
+                this.isDisabled = false
+            }
+        else{
+            this.isDisabled = true
+        }
+    }
 
     render(){
         return (
             <Container>
-                <Container className='my-3'>
+                <Container className='my-5'>
                     <h1>Agregar propiedad</h1>
                 </Container>
                 <Container>
@@ -121,7 +159,7 @@ export default class RegisterEstate extends React.Component{
                                     </InputGroup>
                                     </FormGroup>
                                     </FormGroup>
-                                    {this.state.success && 
+                                    {this.state.search && 
                                     (
                                     <>
                                     <FormGroup className='w-100 mx-5'>
@@ -148,19 +186,19 @@ export default class RegisterEstate extends React.Component{
                                 <FormGroup className='w-100 mx-5'>
                                     <FormLabel>Imagen</FormLabel>
                                     <FormControl type='file' accept="image/png, image/gif, image/jpeg" />
-                                    <FormLabel>Medidas</FormLabel>
+                                    <FormLabel>Medidas - Obligatorio</FormLabel>
                                     <InputGroup>
-                                        <FormControl value={this.state.medidas[0]} name='medida1' onChange={this.handleChange} />
+                                        <FormControl type='number' value={this.state.medida1} name='medida1' onChange={this.handleChange} />
                                         <InputGroup.Text>X</InputGroup.Text>
-                                        <FormControl value={this.state.medidas[1]} name='medida2' onChange={this.handleChange} />
+                                        <FormControl type='number' value={this.state.medida2} name='medida2' onChange={this.handleChange} />
                                         <InputGroup.Text>m2</InputGroup.Text>
                                     </InputGroup>
-                                    <FormLabel>Antiguedad</FormLabel>
+                                    <FormLabel>Antiguedad - Obligatorio</FormLabel>
                                     <InputGroup>
                                     <FormControl value={this.state.antiguedad} name='antiguedad' type='number' onChange={this.handleChange} />
                                     <InputGroup.Text>años</InputGroup.Text>
                                     </InputGroup>
-                                    <FormLabel>Precio</FormLabel>
+                                    <FormLabel>Precio - Obligatorio</FormLabel>
                                     <InputGroup>
                                         <InputGroup.Text>$</InputGroup.Text>
                                         <FormControl value={this.state.monto} name='monto' type='number' onChange={this.handleChange} />
@@ -168,20 +206,20 @@ export default class RegisterEstate extends React.Component{
                                     
                                 </FormGroup>
                                 <FormGroup className='w-100 mx-5'>
-                                    <FormLabel>Tipo</FormLabel>
+                                    <FormLabel>Tipo - Obligatorio</FormLabel>
                                     <Form.Select name='tipo' defaultValue={this.state.amueblado} className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
-                                        <option value="1">Alquiler</option>
-                                        <option value="2">Venta</option>
+                                        <option value="Alquiler">Alquiler</option>
+                                        <option value="Venta">Venta</option>
                                     </Form.Select>
-                                    <FormLabel >Amueblado</FormLabel>
+                                    <FormLabel >Amueblado - Obligatorio</FormLabel>
                                     <Form.Select defaultValue={this.state.amueblado} name='amueblado' className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
-                                        <option  value="1">SI</option>
-                                        <option value="2">NO</option>
+                                        <option  value="SI">SI</option>
+                                        <option value="NO">NO</option>
                                     </Form.Select>
-                                    <FormLabel>Artefactos</FormLabel>
+                                    <FormLabel>Artefactos - Obligatorio</FormLabel>
                                     <FormControl value={this.state.artefactos} name='artefactos' onChange={this.handleChange} />
-                                    <FormLabel name='servicios' >Servicios</FormLabel>
-                                    <FormControl />    
+                                    <FormLabel  >Servicios - Obligatorio</FormLabel>
+                                    <FormControl value={this.state.servicios} name='servicios' onChange={this.handleChange} />    
                                 </FormGroup>
                             </FormGroup>
                         </Container>
@@ -189,19 +227,19 @@ export default class RegisterEstate extends React.Component{
                         <h2 className='mb-3'>Ubicacion</h2>
                         <FormGroup className='d-flex'>
                                 <FormGroup className='w-100 mx-5'>
-                                    <FormLabel>Pais</FormLabel>
+                                    <FormLabel>Pais - Obligatorio</FormLabel>
                                     <FormControl value={this.state.pais} name='pais' onChange={this.handleChange} />
-                                    <FormLabel>Provincia</FormLabel>
+                                    <FormLabel>Provincia - Obligatorio</FormLabel>
                                     <FormControl value={this.state.provincia} name='provincia' onChange={this.handleChange}  />
-                                    <FormLabel>Ciudad</FormLabel>
+                                    <FormLabel>Ciudad - Obligatorio</FormLabel>
                                     <FormControl value={this.state.ciudad} name='ciudad' onChange={this.handleChange} />
                                     <FormLabel  >Barrio</FormLabel>
                                     <FormControl value={this.state.barrio} name='barrio' onChange={this.handleChange} />
                                 </FormGroup>
                                 <FormGroup className='w-100 mx-5'>
-                                    <FormLabel  >Calle</FormLabel>
+                                    <FormLabel  >Calle - Obligatorio</FormLabel>
                                     <FormControl value={this.state.direccion} name='direccion' onChange={this.handleChange}/>
-                                    <FormLabel  >Numero</FormLabel>
+                                    <FormLabel  >Numero - Obligatorio</FormLabel>
                                     <FormControl value={this.state.numero} name='numero' type='number' onChange={this.handleChange} />
                                     <FormLabel  >Piso</FormLabel>
                                     <FormControl value={this.state.piso} name='piso' type='number' onChange={this.handleChange} />
@@ -211,7 +249,7 @@ export default class RegisterEstate extends React.Component{
                         </FormGroup>
                         </Container>
                         <Container className='text-center my-5'>
-                            <Button className='w-25' variant="success" type='submit'>Enviar</Button>
+                            <Button className='w-25' variant="success" type='submit' disabled={this.isDisabled}>Enviar</Button>
                         </Container>
                     </Form>
                 </Container>

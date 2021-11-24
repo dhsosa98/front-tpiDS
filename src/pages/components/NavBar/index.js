@@ -18,11 +18,11 @@ export default class NavBar extends React.Component{
                         <h5 className='text_nav-bar'>Agente Inmobiliario</h5>
                     </Container>
                     <ListGroup className='mt-5' style={{background: '#363740'}}>
-                        <NavItem><Link to='/' className='link-item'>Inicio</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'>Propiedades</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'>Clientes</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'>Eventos</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'>Cerrar Sesión</Link></NavItem>
+                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-home mx-2'></span>Inicio</Link></NavItem>
+                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-building mx-2'></span>Propiedades</Link></NavItem>
+                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-users mx-2'></span>Clientes</Link></NavItem>
+                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-calendar mx-2'></span>Eventos</Link></NavItem>
+                        <NavItem><Link onClick={()=>{sessionStorage.removeItem('role')}} to='/' className='link-item'><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</Link></NavItem>
                     </ListGroup>
 
                     <Container className='text-center position-relative' style={{top: '25em'}}>

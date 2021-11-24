@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
         const email = this.state.email
         const password = this.state.password
         const user = {
-            username: email,
+            email: email,
             password: password
         }
         if (this.serviceUser.fetchUser(user)){
