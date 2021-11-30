@@ -1,2 +1,2 @@
 # front-tpiDS
-Front-Web App Proyect for the Systems Design University Subject 
+Front-Web App Project for the Systems Design University Subject 
