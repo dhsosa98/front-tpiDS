@@ -1,13 +1,15 @@
 import axios from 'axios'
 import React from 'react'
 import {Alert, Button, FormControl, FormGroup, FormLabel, InputGroup, Modal} from 'react-bootstrap'
+import NavBar from '../NavBar'
 import { Container, Form } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 export default class RegisterEstate extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-                search: false,
+                search: [],
                 idClient : [],
                 dataClient: {
                     dni: [],
@@ -34,6 +36,7 @@ export default class RegisterEstate extends React.Component{
                 dpto: []
         }
         this.isDisabled = true
+        this.isSearch = false
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmitForm = this.handleSubmitForm.bind(this)
         this.handleSearchClient = this.handleSearchClient.bind(this)
@@ -102,7 +105,8 @@ export default class RegisterEstate extends React.Component{
             const baseURL = 'http://localhost:8080/api/v1/propietarios/'
             axios.get(baseURL + clientID).then(
                 res => {
-                        console.log(res.data)
+                    if (res.status = 204){
+                        console.log(res.status)
                         this.setState(prevState => {
                             let dataClient = Object.assign({}, prevState.dataClient);  
                             dataClient.dni = res.data.dni; 
@@ -114,33 +118,25 @@ export default class RegisterEstate extends React.Component{
                           })
                         const search = this.state.search
                         if (!this.state.search){
-                        this.setState({search: !search})}
+                        this.setState({search: !search})
                         }
-                    )      
+                        }
+                    else{
+                        console.log(res)
+                        alert('No existe el propietario con ese id')
+                        }
+                    }  
+                    ).catch(res=>{
+                        if (!res.status){alert('No existe el propietario con ese id')}})      
         }
+        
     
-        componentDidUpdate(){
-        if  (
-            !!this.state.dataClient.dni.length &&
-            !!this.state.pais.length &&
-            !!this.state.provincia.length &&
-            !!this.state.ciudad.length &&
-            !!this.state.direccion.length &&
-            !!this.state.numero.length &&
-            !!this.state.antiguedad.length &&
-            !!this.state.servicios.length &&
-            !!this.state.artefactos.length &&
-            !!this.state.medida1.length &&
-            !!this.state.medida2.length){
-                this.isDisabled = false
-            }
-        else{
-            this.isDisabled = true
-        }
-    }
+        
 
     render(){
         return (
+        <div className='color-bc d-flex flex-row min-vh-100 ' >
+            <NavBar className='min-vh-100'></NavBar>
             <Container>
                 <Container className='my-5'>
                     <h1>Agregar propiedad</h1>
@@ -153,10 +149,10 @@ export default class RegisterEstate extends React.Component{
                                     <FormGroup className='w-75 mx-5' >
                                     <FormLabel >Buscar por id Cliente</FormLabel>
                                     <FormGroup className='w-100' >
-                                    <InputGroup>
-                                        <FormControl value={this.state.idClient} name='idClient' type='number' className='shadow-none' style={{backgroundColor: 'transparent', outline: 'none', border: 'none', borderBottom: 'solid 1px gray'}} onChange={this.handleChange}/>
-                                        <Button onClick={this.handleSearchClient} type='search' >Buscar</Button>
-                                    </InputGroup>
+                                        <InputGroup>
+                                            <FormControl value={this.state.idClient} name='idClient' type='number' className='shadow-none' style={{backgroundColor: 'transparent', outline: 'none', border: 'none', borderBottom: 'solid 1px gray'}} onChange={this.handleChange}/>
+                                            {(!this.state.idClient.length) ? (<Button onClick={this.handleSearchClient} type='search' disabled={true}>Buscar</Button>) : <Button onClick={this.handleSearchClient} type='search' disabled={false}>Buscar</Button>}
+                                        </InputGroup>
                                     </FormGroup>
                                     </FormGroup>
                                     {this.state.search && 
@@ -164,17 +160,17 @@ export default class RegisterEstate extends React.Component{
                                     <>
                                     <FormGroup className='w-100 mx-5'>
                                     <FormLabel>DNI</FormLabel>
-                                    <FormControl value={this.state.dataClient.dni} name='DNI' type='number' placeholder='Ej. 11111111'onChange={this.handleChange} disabled={true}/>
-                                    <FormLabel>Nombres</FormLabel>
-                                    <FormControl value={this.state.dataClient.nombres} name='nombres' onChange={this.handleChange} disabled={true}/> 
-                                    <FormLabel>Apellidos</FormLabel>
-                                    <FormControl value={this.state.dataClient.apellidos} name='apellidos' onChange={this.handleChange} disabled={true}/> 
-                                    </FormGroup>
-                                    <FormGroup className='w-100 mx-5'>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl value={this.state.dataClient.email}  name='email' type='email' onChange={this.handleChange} disabled={true}/>
-                                    <FormLabel>Teléfono</FormLabel>
-                                    <FormControl value={this.state.dataClient.telefono}  name='telefono' type='number' onChange={this.handleChange} disabled={true}/>
+                                        <FormControl value={this.state.dataClient.dni} name='DNI' type='number' onChange={this.handleChange} disabled={true}/>
+                                        <FormLabel>Nombres</FormLabel>
+                                        <FormControl value={this.state.dataClient.nombres} name='nombres' onChange={this.handleChange} disabled={true}/> 
+                                        <FormLabel>Apellidos</FormLabel>
+                                        <FormControl value={this.state.dataClient.apellidos} name='apellidos' onChange={this.handleChange} disabled={true}/> 
+                                        </FormGroup>
+                                        <FormGroup className='w-100 mx-5'>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl value={this.state.dataClient.email}  name='email' type='email' onChange={this.handleChange} disabled={true}/>
+                                        <FormLabel>Teléfono</FormLabel>
+                                        <FormControl value={this.state.dataClient.telefono}  name='telefono' type='number' onChange={this.handleChange} disabled={true}/>
                                     </FormGroup>
                                     </>
                                 )}
@@ -249,11 +245,26 @@ export default class RegisterEstate extends React.Component{
                         </FormGroup>
                         </Container>
                         <Container className='text-center my-5'>
-                            <Button className='w-25' variant="success" type='submit' disabled={this.isDisabled}>Enviar</Button>
+                            {
+            (!!this.state.dataClient.dni.length &&
+            !!this.state.pais.length &&
+            !!this.state.provincia.length &&
+            !!this.state.ciudad.length &&
+            !!this.state.direccion.length &&
+            !!this.state.numero.length &&
+            !!this.state.antiguedad.length &&
+            !!this.state.servicios.length &&
+            !!this.state.artefactos.length &&
+            !!this.state.medida1.length &&
+            !!this.state.medida2.length) 
+            ? (<Button className='w-25 m-5' variant="success" type='submit' disabled={false}>Enviar</Button>) 
+            : (<Button className='w-25 m-5' variant="success" type='submit' disabled={true}>Enviar</Button>)}
+                            <Link to='/estates'><Button className='w-25 m-5' variant="secondary">Volver</Button></Link>
                         </Container>
                     </Form>
                 </Container>
             </Container>
+        </div>
         )
     }
 }

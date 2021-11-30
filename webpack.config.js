@@ -16,7 +16,24 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  "targets": {
+                    "browsers": [
+                      ">0.25%",
+                      "not ie 11",
+                      "not op_mini all"
+                    ]
+                  }
+                }
+              ],
+              "@babel/preset-react"
+            ],
+            plugins: [
+              "@babel/plugin-transform-runtime"
+            ]
           }
         }
       },
@@ -25,7 +42,7 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|jp(e*)g|svg|gif)$/,
+        test: /\.(png|jp(e*)g|gif)$/,
         use: ['file-loader'],
       },
       {

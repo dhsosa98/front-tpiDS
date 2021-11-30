@@ -7,6 +7,11 @@ import './styles.css'
 
 export default class NavBar extends React.Component{
 
+    CloseSesion(){
+        sessionStorage.removeItem('role') 
+        window.location.reload(true)
+    }
+
     render(){
         return (
             <Nav className='d-flex flex-column min-vh-100 position-fixed' style={{background: '#363740'}}>
@@ -18,11 +23,11 @@ export default class NavBar extends React.Component{
                         <h5 className='text_nav-bar'>Agente Inmobiliario</h5>
                     </Container>
                     <ListGroup className='mt-5' style={{background: '#363740'}}>
-                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-home mx-2'></span>Inicio</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-building mx-2'></span>Propiedades</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-users mx-2'></span>Clientes</Link></NavItem>
-                        <NavItem><Link to='/' className='link-item'><span className='fi-rr-calendar mx-2'></span>Eventos</Link></NavItem>
-                        <NavItem><Link onClick={()=>{sessionStorage.removeItem('role')}} to='/' className='link-item'><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</Link></NavItem>
+                    <Link to='/' className='link-item'><NavItem><span className='fi-rr-home mx-2'></span>Inicio</NavItem></Link>
+                    <Link to='/estates' className='link-item'><NavItem><span className='fi-rr-building mx-2'></span>Propiedades</NavItem></Link>
+                    <Link to='/' className='link-item'><NavItem><span className='fi-rr-users mx-2'></span>Clientes</NavItem></Link>
+                    <Link to='/' className='link-item'><NavItem><span className='fi-rr-calendar mx-2'></span>Eventos</NavItem></Link>
+                    <Link onClick={()=>{this.CloseSesion()}} to='/' className='link-item'><NavItem><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</NavItem></Link>
                     </ListGroup>
 
                     <Container className='text-center position-relative' style={{top: '25em'}}>

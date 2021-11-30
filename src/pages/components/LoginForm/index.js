@@ -1,16 +1,11 @@
 import React from 'react'
 import { Container, Form, FormGroup, FormLabel, FormControl, Button, Image, Row } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 import srcLogo from "../../../../public/logo.png"
 import { Link } from 'react-router-dom'
 import GetUser from '../../../services/loginService'
 import {withRouter} from 'react-router-dom'
 
 class LoginForm extends React.Component {
-    static propTypes = {
-        history: PropTypes.object.isRequired
-    }
-
     constructor(props){
     super(props)
     this.state = {
@@ -34,9 +29,9 @@ class LoginForm extends React.Component {
             email: email,
             password: password
         }
-        if (this.serviceUser.fetchUser(user)){
-            history.push('/')
-        }
+        this.serviceUser.fetchUser(user)
+        window.location.reload(true)
+        
     }
 
     render (){

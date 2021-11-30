@@ -28,8 +28,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
+    "@babel/runtime": "^7.16.3",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
