@@ -1,17 +1,18 @@
+import axios from "axios"
+const urlAPI = 'http://localhost:8080/api/v1/login'
 
 export default class GetUser {
     fetchUser(credentials) {
-        const user = {
-            email: 'inmb@domus.com',
-            password: '1234imb',
-            role: 'Agente Inmobiliario'
-        }
-        console.log(credentials)
-         if ((credentials.email) == (user.email) && (credentials.password) == (user.password)) {
-             sessionStorage.setItem('role', user.role)
-             console.log('Aqui estoyy')
-         }
-         else alert('Usuario o contraseña incorrecta')
-        }
+        axios.post(urlAPI, credentials).then(res=>{
+            if (res.status == 200){
+            sessionStorage.setItem('role', res.data.role)
+            window.location.reload(true)
+            }
+        }).catch(res =>{
+            if (res){
+                alert('Email o contraseña incorrectos')
+            }}
+        )
+    }
 }
 

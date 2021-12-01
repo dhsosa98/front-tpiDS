@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
             password: password
         }
         this.serviceUser.fetchUser(user)
-        window.location.reload(true)
+        
         
     }
 
