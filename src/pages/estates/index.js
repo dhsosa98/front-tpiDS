@@ -11,13 +11,11 @@ export default class Estates extends React.Component {
         super(props)
         this.state = {
             propiedades: [],
-            ubicaciones: []
         }
-        
+        this.handleDelete = this.handleDelete.bind(this)
     }
-    
 
-    async componentDidMount(){
+   async componentDidMount(){
         try{
         const urlApiPropiedades='http://localhost:8080/api/v1/propiedades'
         const urlApiUbicacion='http://localhost:8080/api/v1/ubicacion/'
@@ -33,12 +31,19 @@ export default class Estates extends React.Component {
             (a,b) => (a.propietario.nombres > b.propietario.nombres) ? 1 : ((b.propietario.nombres > a.propietario.nombres) ? -1 : 0)
             )
         this.setState({propiedades: propiedades})
-        /*this.setState({ubicaciones: ubicacion.data})
-        console.log(ubicacion.data)*/
         }
         catch{
             console.log('Error')
         }              
+   }
+
+    handleDelete(e, id){
+        const urlApiPropiedadesDelete = 'http://localhost:8080/api/v1/'
+        e.preventDefault()
+        axios.delete(urlApiPropiedadesDelete + id).then(res=>{
+        this.setState({propiedades: this.state.propiedades.filter(propiedad => {return propiedad.idPropiedad != id})})
+        }
+        )
     }
 
     render (){
@@ -64,7 +69,7 @@ export default class Estates extends React.Component {
                     </thead>
                     <tbody>
                     {this.state.propiedades.map((propiedad) => (
-                        <tr id={propiedad.idPropiedad} className='my-2' key={propiedad.idPropiedad} >
+                        <tr id={"1 " + propiedad.idPropiedad} className='my-2' key={propiedad.idPropiedad} >
                             <td><img src={Img} height='30px' /></td>
                             <td>{propiedad.propietario.nombres}{', '}{propiedad.propietario.apellidos}</td>
                             <td>{propiedad.tipo}</td>
@@ -80,15 +85,15 @@ export default class Estates extends React.Component {
                                 {propiedad.ubicacion.direccion}{' '}
                                 {propiedad.ubicacion.numero}
                             </td>
-                            <td><Link to='/estates/register-estate'><Button variant='secondary'>Modificar</Button></Link></td>
-                            <td><Link to='/estates/register-estate'><Button variant='danger'><span className='fi-rr-trash'></span></Button></Link></td> 
+                            <td><Link to={'/estates/'+propiedad.idPropiedad}><Button variant='secondary'>Modificar</Button></Link></td>
+                            <td><Button variant='danger' onClick={(e)=>this.handleDelete(e, propiedad.idPropiedad)}><span className='fi-rr-trash'></span></Button></td> 
                         </tr>
                         
                         ))} 
                     </tbody>
                     </Table>
                             <Container className='text-center'>
-                                <Link to='/estates/register-estate'><Button className='w-75' variant='success'>Registrar otra propiedad</Button></Link>
+                                <Link to='/register-estate'><Button className='w-75' variant='success'>Registrar otra propiedad</Button></Link>
                             </Container>
                     </Card>
                 </Container>    

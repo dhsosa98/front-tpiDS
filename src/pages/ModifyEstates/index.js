@@ -1,41 +1,44 @@
-import axios from 'axios'
 import React from 'react'
+import axios from 'axios'
 import {Button, FormControl, FormGroup, FormLabel, InputGroup, Modal} from 'react-bootstrap'
-import NavBar from '../NavBar'
+import NavBar from '../components/NavBar'
 import { Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
-export default class RegisterEstate extends React.Component{
+class ModifyEstates extends React.Component {
     constructor(props){
         super(props)
-        this.state = {
-                isShow:  false,
+        this.state={
+            param: location.pathname.split("/estates/")[1],
+            isShow:  false,
                 isConfirm: false,
-                search: [],
-                idClient : [],
+                search: true,
+                idClient : '',
                 dataClient: {
-                    dni: [],
-                    nombres: [],
-                    apellidos: [],
-                    email: [],
-                    telefono: []
+                    dni: '',
+                    nombres: '',
+                    apellidos: '',
+                    email: '',
+                    telefono: ''
                 },
-                tipo: 'Alquiler',
-                medida1: [],
-                medida2: [],
-                monto: [],
-                antiguedad: [],
-                amueblado: 'SI',
-                artefactos: [],
-                servicios: [],
-                pais: [],
-                provincia: [],
-                ciudad: [],
-                barrio: [],
-                direccion: [],
-                numero: [],
-                piso: [],
-                dpto: []
+                tipo: '',
+                medida1: '',
+                medida2: '',
+                monto: '',
+                antiguedad: '',
+                amueblado: '',
+                artefactos: '',
+                servicios: '',
+                pais: '',
+                provincia: '',
+                ciudad: '',
+                barrio: '',
+                direccion: '',
+                numero: '',
+                piso: '',
+                dpto: '',
+                ubic: ''
         }
         this.modalText = ''
         this.isDisabled = true
@@ -46,6 +49,41 @@ export default class RegisterEstate extends React.Component{
         this.handleCloseModal = this.handleCloseModal.bind(this)
         this.handleConfirmModal = this.handleConfirmModal.bind(this)
     }
+        async componentDidMount(){
+            try{
+                console.log(this.state.param)
+                const urlApiPropiedades='http://localhost:8080/api/v1/'
+                const urlApiUbicacion='http://localhost:8080/api/v1/ubicacion/'
+                const urlApiPropietario='http://localhost:8080/api/v1/propietarios/'
+                var propiedad  = await axios.get(urlApiPropiedades+this.state.param)
+                var ubicacion = await axios.get(urlApiUbicacion+propiedad.data.ubicacion)
+                var propietario = await axios.get(urlApiPropietario+propiedad.data.propietario)
+                propiedad.data.ubicacion = ubicacion.data
+                propiedad.data.propietario = propietario.data
+                this.setState({medida1: propiedad.data.medidas.split("x")[0]})
+                this.setState({medida2: propiedad.data.medidas.split("x")[1]})
+                this.setState({idClient: propietario.data.idPropiedario})
+                this.setState({dataClient: propietario.data})
+                this.setState({tipo: propiedad.data.tipo})
+                this.setState({monto: propiedad.data.monto})
+                this.setState({antiguedad: propiedad.data.antiguedad})
+                this.setState({amueblado: propiedad.data.amueblado})
+                this.setState({artefactos: propiedad.data.artefactos})
+                this.setState({servicios: propiedad.data.servicios})
+                this.setState({pais: ubicacion.data.pais})
+                this.setState({provincia: ubicacion.data.provincia})
+                this.setState({ciudad: ubicacion.data.ciudad})
+                if (ubicacion.data.barrio != 'null'){this.setState({barrio: ubicacion.data.barrio})}
+                this.setState({direccion: ubicacion.data.direccion})
+                if (ubicacion.data.numero != 'null'){this.setState({numero: ubicacion.data.numero})}
+                if (ubicacion.data.piso != 'null'){this.setState({piso: ubicacion.data.piso})}
+                this.setState({dpto: ubicacion.data.dpto})
+                this.setState({ubic: ubicacion.data.ubic})
+                }
+                catch{
+                    console.log('Error')
+                }            
+        }
     
         handleChange(e){
             this.setState( {[e.target.name]: e.target.value} )
@@ -53,8 +91,8 @@ export default class RegisterEstate extends React.Component{
     
         handleSubmitForm(e) {
             e.preventDefault()
-            const baseURLUbication = 'http://localhost:8080/api/v1/registrarUbicacion'
-            const baseURLEstate = 'http://localhost:8080/api/v1/registrarPropiedad'
+            const baseURLUbication = 'http://localhost:8080/api/v1/ubicacion/'
+            const baseURLEstate = 'http://localhost:8080/api/v1/'
             const dataUbicacion = {
                 pais: this.state.pais,
                 provincia: this.state.provincia,
@@ -65,18 +103,19 @@ export default class RegisterEstate extends React.Component{
                 piso: this.state.piso, 
                 dpto: this.state.dpto
             }
-            if (!dataUbicacion.piso.length) {
+            if (!dataUbicacion.piso) {
                 delete dataUbicacion["piso"]
             }
-            if (!dataUbicacion.barrio.length) {
+            if (!dataUbicacion.barrio) {
                 delete dataUbicacion["barrio"]
             }
-            if (!dataUbicacion.dpto.length) {
+            if (!dataUbicacion.dpto) {
                 delete dataUbicacion["dpto"]
             }
-            axios.post(baseURLUbication, dataUbicacion).then(
+            const idUbic = this.state.ubic
+            const idProp = this.state.param
+            axios.put(baseURLUbication+idUbic, dataUbicacion).then(
                 res => {
-                    console.log(res)
                     const estate = {
                         tipo: this.state.tipo,
                         medidas: this.state.medida1+'x'+this.state.medida2,
@@ -88,11 +127,9 @@ export default class RegisterEstate extends React.Component{
                         ubicacion: res.data.ubic,
                         propietario: this.state.idClient
                     }
-                    console.log(estate)
-                    axios.post(baseURLEstate, estate).then(
+                    axios.put(baseURLEstate+idProp, estate).then(
                         res => {
-                            console.log(res)
-                            this.modalText = "Formulario enviado exitosamente"
+                            this.modalText = "Propiedad modificada exitosamente"
                             this.setState({isShow: true})
                         }
                     )
@@ -110,12 +147,10 @@ export default class RegisterEstate extends React.Component{
         handleSearchClient(e) {
             e.preventDefault()
             const clientID = this.state.idClient
-            console.log(this.state.idClient)
             const baseURL = 'http://localhost:8080/api/v1/propietarios/'
             axios.get(baseURL + clientID).then(
                 res => {
                     if (res.status = 204){
-                        console.log(res.status)
                         this.setState(prevState => {
                             let dataClient = Object.assign({}, prevState.dataClient);  
                             dataClient.dni = res.data.dni; 
@@ -168,7 +203,7 @@ export default class RegisterEstate extends React.Component{
             <NavBar className='min-vh-100'></NavBar>
             <Container>
                 <Container className='my-5'>
-                    <h1>Agregar propiedad</h1>
+                    <h1>Modificar propiedad</h1>
                 </Container>
                 <Container>
                     <Form onSubmit={this.handleSubmitForm}>
@@ -232,12 +267,12 @@ export default class RegisterEstate extends React.Component{
                                 </FormGroup>
                                 <FormGroup className='w-100 mx-5'>
                                     <FormLabel>Tipo - Obligatorio</FormLabel>
-                                    <Form.Select name='tipo' defaultValue={this.state.amueblado} className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
+                                    <Form.Select name='tipo' value={this.state.tipo} className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
                                         <option value="Alquiler">Alquiler</option>
                                         <option value="Venta">Venta</option>
                                     </Form.Select>
                                     <FormLabel >Amueblado - Obligatorio</FormLabel>
-                                    <Form.Select defaultValue={this.state.amueblado} name='amueblado' className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
+                                    <Form.Select value={this.state.amueblado} name='amueblado' className='w-25' aria-label="Floating label select example" onChange={this.handleChange}>
                                         <option  value="SI">SI</option>
                                         <option value="NO">NO</option>
                                     </Form.Select>
@@ -286,14 +321,17 @@ export default class RegisterEstate extends React.Component{
             !!this.state.artefactos.length &&
             !!this.state.medida1.length &&
             !!this.state.medida2.length) 
-            ? (<Button className='w-25 m-5' variant="success" type='submit' disabled={false}>Enviar</Button>) 
-            : (<Button className='w-25 m-5' variant="success" type='submit' disabled={true}>Enviar</Button>)}
+            ? (<Button className='w-25 m-5' variant="primary" type='submit' disabled={false}>Modificar</Button>) 
+            : (<Button className='w-25 m-5' variant="primary" type='submit' disabled={true}>Modificar</Button>)}
                             <Link to='/estates'><Button className='w-25 m-5' variant="secondary">Volver</Button></Link>
                         </Container>
                     </Form>
                 </Container>
             </Container>
         </div>
-        )
-    }
+    
+
+        )}
 }
+
+export default withRouter(ModifyEstates)

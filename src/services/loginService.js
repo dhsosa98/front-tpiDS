@@ -8,7 +8,7 @@ export default class GetUser {
             sessionStorage.setItem('role', res.data.role)
             window.location.reload(true)
             }
-        }).catch(res =>{
+        }).catch((res) =>{
             if (res){
                 alert('Email o contraseña incorrectos')
             }}

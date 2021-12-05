@@ -30,8 +30,6 @@ class LoginForm extends React.Component {
             password: password
         }
         this.serviceUser.fetchUser(user)
-        
-        
     }
 
     render (){
@@ -53,7 +51,7 @@ class LoginForm extends React.Component {
                     </FormGroup>
                     <FormGroup className="mb-3 text-center" >
                         <Button className='w-75' variant="secondary" type='submit' value='Submit'>
-                            Enviar
+                            Ingresar
                         </Button>
                     </FormGroup>
                 </Form>

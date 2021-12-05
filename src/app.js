@@ -4,9 +4,11 @@ import Login from './pages/login'
 import Estates from './pages/estates'
 import Home from './pages/home'
 import RegisterEstate from './pages/components/RegisterEstate'
+import ModifyEstates from './pages/ModifyEstates'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles.css'
 import '../public/uicons-regular-rounded/css/uicons-regular-rounded.css'
+
 
 
 
@@ -38,7 +40,13 @@ export default class App extends React.Component{
                 }
                 return (<Redirect to='/login' />)
                 }} />
-                <Route path='/estates/register-estate' component={()=> {
+                <Route path='/estates/:id' component={()=> {
+                if (this.role) {
+                    return (<ModifyEstates />)
+                }
+                return (<Redirect to='/login' />)
+                }} />
+                <Route path='/register-estate' component={()=> {
                 if (this.role) {
                     return (<RegisterEstate />)
                 }

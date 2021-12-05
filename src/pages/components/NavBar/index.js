@@ -1,14 +1,22 @@
 import React from 'react'
-import { Container, Image, Nav, NavItem, ListGroup, h5 } from 'react-bootstrap'
+import { Container, Image, Nav, NavItem, ListGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
 import srcUser from '../../../../public/login.png'
 import './styles.css'
+import Button from '@restart/ui/esm/Button'
 
-export default class NavBar extends React.Component{
+class NavBar extends React.Component{
 
-    CloseSesion(){
-        sessionStorage.removeItem('role') 
+    constructor(props){
+        super(props)
+        this.state = {}
+        this.closeSesion = this.closeSesion.bind(this)
+    }
+
+    closeSesion(e){
+        e.preventDefault()
         window.location.reload(true)
     }
 
@@ -27,7 +35,7 @@ export default class NavBar extends React.Component{
                     <Link to='/estates' className='link-item'><NavItem><span className='fi-rr-building mx-2'></span>Propiedades</NavItem></Link>
                     <Link to='/' className='link-item'><NavItem><span className='fi-rr-users mx-2'></span>Clientes</NavItem></Link>
                     <Link to='/' className='link-item'><NavItem><span className='fi-rr-calendar mx-2'></span>Eventos</NavItem></Link>
-                    <Link onClick={()=>{this.CloseSesion()}} to='/' className='link-item'><NavItem><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</NavItem></Link>
+                    <NavItem onClick={this.closeSesion} ><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</NavItem>
                     </ListGroup>
 
                     <Container className='text-center position-relative' style={{top: '25em'}}>
@@ -37,3 +45,4 @@ export default class NavBar extends React.Component{
         )
     }
 }
+export default withRouter(NavBar)
