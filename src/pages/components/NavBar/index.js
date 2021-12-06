@@ -17,6 +17,7 @@ class NavBar extends React.Component{
 
     closeSesion(e){
         e.preventDefault()
+        sessionStorage.removeItem('role')
         window.location.reload(true)
     }
 

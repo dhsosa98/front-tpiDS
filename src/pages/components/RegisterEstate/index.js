@@ -4,8 +4,9 @@ import {Button, FormControl, FormGroup, FormLabel, InputGroup, Modal} from 'reac
 import NavBar from '../NavBar'
 import { Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
-export default class RegisterEstate extends React.Component{
+class RegisterEstate extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -45,6 +46,35 @@ export default class RegisterEstate extends React.Component{
         this.handleSearchClient = this.handleSearchClient.bind(this)
         this.handleCloseModal = this.handleCloseModal.bind(this)
         this.handleConfirmModal = this.handleConfirmModal.bind(this)
+    }
+
+    componentDidMount(){
+        const clientID = location.search.split("?idClient=")[1]
+        this.setState({idClient: clientID})
+        const baseURL = 'http://localhost:8080/api/v1/propietarios/'
+            axios.get(baseURL + clientID).then(
+                res => {
+                    if (res.status = 204){
+                        console.log(res.status)
+                        this.setState(prevState => {
+                            let dataClient = Object.assign({}, prevState.dataClient);  
+                            dataClient.dni = res.data.dni; 
+                            dataClient.nombres = res.data.nombres 
+                            dataClient.apellidos = res.data.apellidos
+                            dataClient.email = res.data.email   
+                            dataClient.telefono = res.data.telefono                                   
+                            return { dataClient };                                 
+                          })
+                        const search = this.state.search
+                        if (!this.state.search){
+                        this.setState({search: !search})
+                        }
+                        }
+                    else{
+                        console.log(res)
+                        }
+                    }  
+                    )    
     }
     
         handleChange(e){
@@ -297,3 +327,5 @@ export default class RegisterEstate extends React.Component{
         )
     }
 }
+
+export default withRouter(RegisterEstate);
