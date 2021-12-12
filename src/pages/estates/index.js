@@ -1,6 +1,7 @@
 import axios from 'axios'
+axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import React from 'react'
-import { Container, Button, Table, Card, Accordion, Modal } from 'react-bootstrap'
+import { Container, Card} from 'react-bootstrap'
 
 import NavBar from '../components/NavBar'
 import ClientsTables from '../components/ClientsTables'
@@ -92,7 +93,7 @@ export default class Estates extends React.Component {
                 <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
                     {this.modalText}
                 </ModalWindow>
-                <NavBar className='min-vh-100' setRole={this.props.setRole} />
+                <NavBar className='min-vh-100' setToken={this.props.setToken} />
                 <Container className='d-flex align-items-center justify-content-center flex-column'>
                     <h1>Listado Propiedades</h1>
                     <Card className='mt-5 p-2 w-100'>

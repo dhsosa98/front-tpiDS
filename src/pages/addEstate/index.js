@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import React from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
@@ -155,7 +156,7 @@ class AddEstate extends React.Component{
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success">
                     {this.modalText}
             </ModalWindow>
-            <NavBar className='min-vh-100' setRole={this.props.setRole} />
+            <NavBar className='min-vh-100' setToken={this.props.setToken} />
             <Container>
                 <Container className='my-5'>
                     <h1>Agregar propiedad</h1>

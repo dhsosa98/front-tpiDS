@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import { Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import NavBar from '../components/NavBar'
@@ -162,7 +163,7 @@ class UpdateEstate extends React.Component {
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success" >
                 {this.modalText}
             </ModalWindow>
-            <NavBar className='min-vh-100' setRole={this.props.setRole} />
+            <NavBar className='min-vh-100' setToken={this.props.setToken} />
             <Container>
                 <Container className='my-5'>
                     <h1>Modificar propiedad</h1>

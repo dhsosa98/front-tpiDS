@@ -16,13 +16,13 @@ export default class App extends React.Component{
     constructor(props){
         super(props) 
         this.state = {
-            role: sessionStorage.getItem('role')
+            token: sessionStorage.getItem('token')
         }   
-        this.setRole = this.setRole.bind(this)
+        this.setToken = this.setToken.bind(this)
     }
     
-    setRole(role){
-        this.setState({role: role})
+    setToken(token){
+        this.setState({token: token})
     }
 
     render() {
@@ -30,32 +30,32 @@ export default class App extends React.Component{
         <BrowserRouter>
             <Switch>
                 <Route exact path='/' component={()=> {
-                if (this.state.role) {
-                    return <Home setRole={this.setRole}/>
+                if (this.state.token) {
+                    return <Home setToken={this.setRole}/>
                 }
                 return (<Redirect to='/login' />)
                 }} />
                 <Route path='/login' component={()=> {
-                    if (!this.state.role) {
-                        return <Login setRole={this.setRole}/>
+                    if (!this.state.token) {
+                        return <Login setToken={this.setToken}/>
                     }
                 return (<Redirect to='/' />)
                 }} /> 
                 <Route exact path='/estates' component={()=> {
-                if (this.state.role) {
-                    return (<Estates setRole={this.setRole}/>)
+                if (this.state.token) {
+                    return (<Estates setToken={this.setToken}/>)
                 }
                 return (<Redirect to='/login' />)
                 }} />
                 <Route path='/estates/:id' component={()=> {
-                if (this.state.role) {
-                    return (<UpdateEstate setRole={this.setRole}/>)
+                if (this.state.token) {
+                    return (<UpdateEstate setToken={this.setToken}/>)
                 }
                 return (<Redirect to='/login' />)
                 }} />
                 <Route path='/register-estate' component={()=> {
-                if (this.state.role) {
-                    return (<AddEstate setRole={this.setRole}/>)
+                if (this.state.token) {
+                    return (<AddEstate setToken={this.setToken}/>)
                 }
                 return (<Redirect to='/login' />)
                 }} />

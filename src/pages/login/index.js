@@ -29,8 +29,8 @@ class Login extends React.Component {
             }
             const data = await getUser(user)
             if (data){
-                this.props.setRole(data.role)
-                sessionStorage.setItem('role', data.role)
+                this.props.setToken(data)
+                sessionStorage.setItem('token', data)
                 this.props.history.push("/")
             }
             else{

@@ -16,8 +16,8 @@ class NavBar extends React.Component{
 
     closeSesion(e){
         e.preventDefault()
-        sessionStorage.removeItem('role')
-        this.props.setRole('')
+        sessionStorage.removeItem('token')
+        this.props.setToken('')
         this.props.history.push('/')
     }
 
