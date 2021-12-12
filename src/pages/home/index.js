@@ -9,7 +9,7 @@ export default class Home extends React.Component {
     render (){
         return (
             <div className='color-bc d-flex flex-row min-vh-100 ' >
-                <NavBar className='min-vh-100'></NavBar>  
+                <NavBar className='min-vh-100' setRole={this.props.setRole} /> 
                 <Container className='d-flex align-items-center justify-content-center flex-column'>
                     <h1 className='mb-5'>Bienvenido James Fernand</h1>
                     <Card style={{ width: '20em', padding: '1em' }}>

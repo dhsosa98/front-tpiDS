@@ -5,7 +5,6 @@ import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
 import srcUser from '../../../../public/login.png'
 import './styles.css'
-import Button from '@restart/ui/esm/Button'
 
 class NavBar extends React.Component{
 
@@ -18,7 +17,8 @@ class NavBar extends React.Component{
     closeSesion(e){
         e.preventDefault()
         sessionStorage.removeItem('role')
-        window.location.reload(true)
+        this.props.setRole('')
+        this.props.history.push('/')
     }
 
     render(){
