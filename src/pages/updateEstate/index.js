@@ -1,6 +1,5 @@
 import React from 'react'
 import axios from 'axios'
-axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import { Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import NavBar from '../components/NavBar'
@@ -59,9 +58,10 @@ class UpdateEstate extends React.Component {
                 const urlApiPropiedades='http://localhost:8080/api/v1/'
                 const urlApiUbicacion='http://localhost:8080/api/v1/ubicacion/'
                 const urlApiPropietario='http://localhost:8080/api/v1/propietarios/'
-                var {data: propiedad}  = await axios.get(urlApiPropiedades+this.state.param)
-                var {data: ubicacion} = await axios.get(urlApiUbicacion+propiedad.ubicacion)
-                var {data: propietario} = await axios.get(urlApiPropietario+propiedad.propietario)  
+                const config = {headers: {authorization: sessionStorage.getItem('token')}}
+                var {data: propiedad}  = await axios.get(urlApiPropiedades+this.state.param, config)
+                var {data: ubicacion} = await axios.get(urlApiUbicacion+propiedad.ubicacion, config)
+                var {data: propietario} = await axios.get(urlApiPropietario+propiedad.propietario, config)  
                 propiedad["medida1"] = propiedad.medidas.split("x")[0]
                 propiedad["medida2"] = propiedad.medidas.split("x")[1]
                 delete propiedad["medidas"]
@@ -93,11 +93,12 @@ class UpdateEstate extends React.Component {
             const baseURLLocation = `http://localhost:8080/api/v1/ubicacion/${this.state.param}`
             const baseURLEstate = `http://localhost:8080/api/v1/${this.state.param}`
             const dataUbicacion = {...this.state.dataLocation}
+            const config = {headers: {authorization: sessionStorage.getItem('token')}}
             let estate = {...this.state.dataEstate}
             {(!dataUbicacion.piso) && delete dataUbicacion["piso"]}
             {(!dataUbicacion.barrio) && delete dataUbicacion["barrio"]}
             {(!dataUbicacion.dpto) && delete dataUbicacion["dpto"]}
-            axios.put(baseURLLocation, dataUbicacion).then(
+            axios.put(baseURLLocation, dataUbicacion, config).then(
                 res => {
                     console.log(res)
                     estate["ubicacion"] = res.data.ubic
@@ -105,7 +106,7 @@ class UpdateEstate extends React.Component {
                     estate["propietario"] = this.state.dataClient.idPropietario
                     delete estate["medida1"]
                     delete estate["medida2"]
-                    axios.put(baseURLEstate, estate).then(
+                    axios.put(baseURLEstate, estate, config).then(
                         res => {
                             console.log(res)
                             this.modalText = "Formulario enviado exitosamente"
@@ -127,7 +128,8 @@ class UpdateEstate extends React.Component {
             e.preventDefault()
             const clientID = this.state.dataClient.idPropietario
             const baseURL = 'http://localhost:8080/api/v1/propietarios/'
-            axios.get(baseURL + clientID).then(
+            const config = {headers: {authorization: sessionStorage.getItem('token')}}
+            axios.get(baseURL + clientID, config).then(
                 res => {
                     if (res.status = 204){
                         const {data} = res

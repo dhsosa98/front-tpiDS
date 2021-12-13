@@ -1,5 +1,4 @@
 import axios from 'axios'
-axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import React from 'react'
 import { Container, Card} from 'react-bootstrap'
 
@@ -29,12 +28,13 @@ export default class Estates extends React.Component {
         const urlApiPropiedades='http://localhost:8080/api/v1/propiedades'
         const urlApiUbicacion='http://localhost:8080/api/v1/ubicacion/'
         const urlApiPropietario='http://localhost:8080/api/v1/propietarios/'
+        const config = {headers: {authorization: sessionStorage.getItem('token')}}
         let aux = []
         let p = []
-        var {data: propiedades}  = await axios.get(urlApiPropiedades)
+        var {data: propiedades}  = await axios.get(urlApiPropiedades, config)
         for (const propiedad of propiedades){
-            var {data: ubicacion} = await axios.get(urlApiUbicacion+propiedad.ubicacion)
-            var {data: propietario} = await axios.get(urlApiPropietario+propiedad.propietario)
+            var {data: ubicacion} = await axios.get(urlApiUbicacion+propiedad.ubicacion, config)
+            var {data: propietario} = await axios.get(urlApiPropietario+propiedad.propietario, config)
             propiedad["ubicacion"] = ubicacion
             propiedad["propietario"] = propietario
         };
@@ -61,7 +61,8 @@ export default class Estates extends React.Component {
 
     handleDelete(id){
         const urlApiPropiedadesDelete = 'http://localhost:8080/api/v1/'
-        axios.delete(urlApiPropiedadesDelete + id).then(res=>{
+        const config = {headers: {authorization: sessionStorage.getItem('token')}}
+        axios.delete(urlApiPropiedadesDelete + id, config).then(res=>{
             this.setState({propiedadesPorClientes: 
                 this.state.propiedadesPorClientes.map(k => k.filter(e => e.idPropiedad !== id)).filter(p=>p!='')})
             }

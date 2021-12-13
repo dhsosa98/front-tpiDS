@@ -57,7 +57,8 @@ class AddEstate extends React.Component{
     componentDidMount(){
         const clientID = location.search.split("?idClient=")[1]
         const baseURL = 'http://localhost:8080/api/v1/propietarios/'
-            axios.get(baseURL + clientID).then(
+        const config = {headers: {authorization: sessionStorage.getItem('token')}}
+            axios.get(baseURL + clientID, config).then(
                 res => {
                     if (res.status = 204){
                         const {data} = res
@@ -86,11 +87,12 @@ class AddEstate extends React.Component{
             const baseURLLocation = 'http://localhost:8080/api/v1/registrarUbicacion'
             const baseURLEstate = 'http://localhost:8080/api/v1/registrarPropiedad'
             const dataUbicacion = {...this.state.dataLocation}
+            const config = {headers: {authorization: sessionStorage.getItem('token')}}
             let estate = {...this.state.dataEstate}
             {(!dataUbicacion.piso) && delete dataUbicacion["piso"]}
             {(!dataUbicacion.barrio) && delete dataUbicacion["barrio"]}
             {(!dataUbicacion.dpto) && delete dataUbicacion["dpto"]}
-            axios.post(baseURLLocation, dataUbicacion).then(
+            axios.post(baseURLLocation, dataUbicacion, config).then(
                 res => {
                     console.log(res)
                     estate["ubicacion"] = res.data.ubic
@@ -98,7 +100,7 @@ class AddEstate extends React.Component{
                     estate["propietario"] = this.state.dataClient.idPropietario
                     delete estate["medida1"]
                     delete estate["medida2"]
-                    axios.post(baseURLEstate, estate).then(
+                    axios.post(baseURLEstate, estate, config).then(
                         res => {
                             console.log(res)
                             this.modalText = "Formulario enviado exitosamente"
@@ -120,7 +122,8 @@ class AddEstate extends React.Component{
             e.preventDefault()
             const clientID = this.state.dataClient.idPropietario
             const baseURL = 'http://localhost:8080/api/v1/propietarios/'
-            axios.get(baseURL + clientID).then(
+            const config = {headers: {authorization: sessionStorage.getItem('token')}}
+            axios.get(baseURL + clientID, config).then(
                 res => {
                     if (res.status = 204){
                         const {data} = res

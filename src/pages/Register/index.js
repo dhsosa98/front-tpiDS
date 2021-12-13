@@ -1,10 +1,11 @@
 import React from 'react'
-import LoginForm from '../components/LoginForm'
 import userService from '../../services/userService'
 import {withRouter} from 'react-router-dom'
 import './styles.css'
+import RegisterForm from '../components/RegisterForm'
 
-class Login extends React.Component {
+
+class Register extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -28,12 +29,10 @@ class Login extends React.Component {
                 email: email,
                 password: password
             }
-            const data = await userService.getUser(user)
+            const data = await userService.addUser(user)
             if (data){
                 console.log(data)
-                this.props.setToken(data)
-                sessionStorage.setItem('token', data)
-                this.props.history.push("/")
+                this.props.history.push("/login")
             }
             else{
                 this.setState({isShow: true})
@@ -44,7 +43,7 @@ class Login extends React.Component {
         return (
             <>
                 <div className='color text-white bg-gradient-dark' >
-                    <LoginForm userEmail={this.state.email} userPassword={this.state.password} 
+                    <RegisterForm userEmail={this.state.email} userPassword={this.state.password} 
                     onChange={this.handleChange} onSubmit={this.handleSubmit} isShow={this.state.isShow}/>
                 </div>
             </>
@@ -52,4 +51,4 @@ class Login extends React.Component {
     }
 }
 
-export default withRouter(Login)
+export default withRouter(Register)
