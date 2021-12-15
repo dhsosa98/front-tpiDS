@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
 import srcUser from '../../../../public/login.png'
+import AuthContext from '../../../AuthContex'
 import './styles.css'
 
 class NavBar extends React.Component{
-
+    static contextType = AuthContext;
     constructor(props){
         super(props)
         this.state = {}
@@ -16,9 +17,8 @@ class NavBar extends React.Component{
 
     closeSesion(e){
         e.preventDefault()
-        sessionStorage.removeItem('token')
-        this.props.setToken('')
-        this.props.history.push('/')
+        this.context.logOut()
+        this.props.history.push("/login")
     }
 
     render(){

@@ -2,9 +2,11 @@ import React from 'react'
 import LoginForm from '../components/LoginForm'
 import userService from '../../services/userService'
 import {withRouter} from 'react-router-dom'
+import AuthContext from '../../AuthContex'
 import './styles.css'
 
 class Login extends React.Component {
+    static contextType = AuthContext;
     constructor(props){
         super(props)
         this.state = {
@@ -31,14 +33,13 @@ class Login extends React.Component {
             const data = await userService.getUser(user)
             if (data){
                 console.log(data)
-                this.props.setToken(data)
-                sessionStorage.setItem('token', data)
+                this.context.logIn(data)
                 this.props.history.push("/")
             }
             else{
                 this.setState({isShow: true})
             }
-
+            
         }
     render (){
         return (

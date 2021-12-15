@@ -6,10 +6,11 @@ const urlAPIadd = 'http://localhost:8080/api/v1/registro'
   const getUser = async (credentials) => {
     try{
         const {data} = await axios.post(urlAPI, credentials)
+        console.log(data)
         return data
     }
     catch{
-      console.log('Error')
+      console.log('Error raro')
     }
   }
 

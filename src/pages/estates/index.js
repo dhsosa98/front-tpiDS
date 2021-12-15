@@ -94,7 +94,7 @@ export default class Estates extends React.Component {
                 <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
                     {this.modalText}
                 </ModalWindow>
-                <NavBar className='min-vh-100' setToken={this.props.setToken} />
+                <NavBar className='min-vh-100' />
                 <Container className='d-flex align-items-center justify-content-center flex-column'>
                     <h1>Listado Propiedades</h1>
                     <Card className='mt-5 p-2 w-100'>
