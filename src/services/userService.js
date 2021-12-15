@@ -1,6 +1,6 @@
 import axios from "axios"
-const urlAPI = 'http://localhost:8080/api/v1/login'
-const urlAPIadd = 'http://localhost:8080/api/v1/registro'
+const urlAPI = 'https://back-tpids.herokuapp.com/api/v1/login'
+const urlAPIadd = 'https://back-tpids.herokuapp.com/api/v1/registro'
 
 
   const getUser = async (credentials) => {

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React from 'react'
 import { Container, Card} from 'react-bootstrap'
-
 import NavBar from '../components/NavBar'
 import ClientsTables from '../components/ClientsTables'
 import ModalWindow from '../components/ModalWindow'
@@ -25,9 +24,9 @@ export default class Estates extends React.Component {
 
    async componentDidMount(){
         try{
-        const urlApiPropiedades='http://localhost:8080/api/v1/propiedades'
-        const urlApiUbicacion='http://localhost:8080/api/v1/ubicacion/'
-        const urlApiPropietario='http://localhost:8080/api/v1/propietarios/'
+        const urlApiPropiedades='https://back-tpids.herokuapp.com/api/v1/propiedades'
+        const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion/'
+        const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/propietarios/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
         let aux = []
         let p = []
@@ -60,7 +59,7 @@ export default class Estates extends React.Component {
    }
 
     handleDelete(id){
-        const urlApiPropiedadesDelete = 'http://localhost:8080/api/v1/'
+        const urlApiPropiedadesDelete = 'https://back-tpids.herokuapp.com/api/v1/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
         axios.delete(urlApiPropiedadesDelete + id, config).then(res=>{
             this.setState({propiedadesPorClientes: 

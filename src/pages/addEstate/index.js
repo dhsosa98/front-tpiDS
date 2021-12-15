@@ -1,7 +1,6 @@
 import axios from 'axios'
-axios.defaults.headers.common.authorization = sessionStorage.getItem('token')
 import React from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import { Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import NavBar from '../components/NavBar'
 import ModalWindow from '../components/ModalWindow'
@@ -56,7 +55,7 @@ class AddEstate extends React.Component{
 
     componentDidMount(){
         const clientID = location.search.split("?idClient=")[1]
-        const baseURL = 'http://localhost:8080/api/v1/propietarios/'
+        const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
             axios.get(baseURL + clientID, config).then(
                 res => {
@@ -84,8 +83,8 @@ class AddEstate extends React.Component{
     
         handleSubmitForm(e) {
             e.preventDefault()
-            const baseURLLocation = 'http://localhost:8080/api/v1/registrarUbicacion'
-            const baseURLEstate = 'http://localhost:8080/api/v1/registrarPropiedad'
+            const baseURLLocation = 'https://back-tpids.herokuapp.com/api/v1/registrarUbicacion'
+            const baseURLEstate = 'https://back-tpids.herokuapp.com/api/v1/registrarPropiedad'
             const dataUbicacion = {...this.state.dataLocation}
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
             let estate = {...this.state.dataEstate}
@@ -121,7 +120,7 @@ class AddEstate extends React.Component{
         handleSearchClient(e) {
             e.preventDefault()
             const clientID = this.state.dataClient.idPropietario
-            const baseURL = 'http://localhost:8080/api/v1/propietarios/'
+            const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
             axios.get(baseURL + clientID, config).then(
                 res => {
