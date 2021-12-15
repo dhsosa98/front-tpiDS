@@ -9,7 +9,8 @@ export default class HeaderClientTable extends React.Component{
     }
     render(){
         return(
-            <Table style={{color: 'white', background: '#333', marginBottom: '-0.01em'}} className='text-center mt-5' id={this.props.propiedades[0].propietario.idPropietario}>
+            <Table style={{color: 'white', background: '#333', marginBottom: '-0.01em'}} className='text-center mt-5' id={this.props.propiedades[0].propietario.idPropietario}
+            responsive="lg">
             <thead>
                 <tr>
                     <th></th>

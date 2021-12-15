@@ -11,8 +11,8 @@ export default class ClientsTables extends React.Component{
         return(
             <>
             {this.props.propiedadesPorClientes?.map((propiedades) =>(
-                <Accordion key={propiedades[0].propietario.idPropietario}>
-                    <Accordion.Item eventKey={0} flush='true'>
+                <Accordion key={propiedades[0].propietario.idPropietario} className='w-100'>
+                    <Accordion.Item eventKey={0} flush='true' className='w-100'>
                         <HeaderClientTable propiedades={propiedades} >
                             <Accordion.Header className='m-0 p-0 w-75 h-25' />
                         </HeaderClientTable>

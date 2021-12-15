@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Image, Nav, NavItem, ListGroup} from 'react-bootstrap'
+import { Container, Image, Nav, NavItem, ListGroup, Navbar} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
@@ -23,7 +23,11 @@ class NavBar extends React.Component{
 
     render(){
         return (
-            <Nav className='d-flex flex-column min-vh-100 position-fixed' style={{background: '#363740'}}>
+            <Navbar collapseOnSelect className='d-flex flex-column position-fixed min-vh-100'  expand="lg">
+                <div>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id='responsive-navbar-nav' >
+                    <div className='d-flex flex-column min-vh-100' style={{background: '#363740'}}>
                     <Container className='text-center my-3'>
                         <Container className='img-login text-center my-3'>
                             <Image className='img-login' src={srcUser} height="90" width="90" />
@@ -42,7 +46,10 @@ class NavBar extends React.Component{
                     <Container className='text-center position-relative' style={{top: '25em'}}>
                         <Image src={srcLogo} height="80" />
                     </Container>
-            </Nav>
+                    </div>
+                    </Navbar.Collapse>
+                    </div>
+            </Navbar>
         )
     }
 }

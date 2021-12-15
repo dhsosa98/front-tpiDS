@@ -34,12 +34,12 @@ export default class FormItemEstate extends React.Component{
                     </FormGroup>
                     <FormGroup className='w-100 mx-5'>
                         <FormLabel>Tipo - Obligatorio</FormLabel>
-                        <Form.Select name='dataEstate-tipo' defaultValue={this.props.dataEstate.amueblado} className='w-25' aria-label="Floating label select example" onChange={this.props.onChange}>
+                        <Form.Select name='dataEstate-tipo' defaultValue={this.props.dataEstate.amueblado} className='w-50' aria-label="Floating label select example" onChange={this.props.onChange}>
                             <option value="Alquiler">Alquiler</option>
                             <option value="Venta">Venta</option>
                         </Form.Select>
                         <FormLabel >Amueblado - Obligatorio</FormLabel>
-                        <Form.Select defaultValue={this.props.dataEstate.amueblado} name='dataEstate-amueblado' className='w-25' aria-label="Floating label select example" onChange={this.props.onChange}>
+                        <Form.Select defaultValue={this.props.dataEstate.amueblado} name='dataEstate-amueblado' className='w-50' aria-label="Floating label select example" onChange={this.props.onChange}>
                             <option  value="SI">SI</option>
                             <option value="NO">NO</option>
                         </Form.Select>
