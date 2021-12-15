@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
 import srcUser from '../../../../public/login.png'
-import AuthContext from '../../../AuthContex'
+import AuthContext from '../../../AuthContext'
 import './styles.css'
 
 class NavBar extends React.Component{
