@@ -56,8 +56,8 @@ class UpdateEstate extends React.Component {
         async componentDidMount(){
             try{
                 const urlApiPropiedades='https://back-tpids.herokuapp.com/api/v1/'
-                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/'
-                const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/'
+                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion/'
+                const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/propietarios/'
                 const config = {headers: {authorization: sessionStorage.getItem('token')}}
                 var {data: propiedad}  = await axios.get(urlApiPropiedades+this.state.param, config)
                 var {data: ubicacion} = await axios.get(urlApiUbicacion+propiedad.ubicacion, config)
@@ -90,7 +90,7 @@ class UpdateEstate extends React.Component {
     
         handleSubmitForm(e) {
             e.preventDefault()
-            const baseURLLocation = `https://back-tpids.herokuapp.com/api/v1/${this.state.param}`
+            const baseURLLocation = `https://back-tpids.herokuapp.com/api/v1/ubicacion/${this.state.param}`
             const baseURLEstate = `https://back-tpids.herokuapp.com/api/v1/${this.state.param}`
             const dataUbicacion = {...this.state.dataLocation}
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
@@ -127,7 +127,7 @@ class UpdateEstate extends React.Component {
         handleSearchClient(e) {
             e.preventDefault()
             const clientID = this.state.dataClient.idPropietario
-            const baseURL = 'https://back-tpids.herokuapp.com/api/v1/'
+            const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
             axios.get(baseURL + clientID, config).then(
                 res => {
