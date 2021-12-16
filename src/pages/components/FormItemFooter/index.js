@@ -24,9 +24,9 @@ export default class FormItemFooter extends React.Component{
                 this.props.dataLocation.ciudad &&
                 this.props.dataLocation.direccion &&
                 this.props.dataLocation.numero) 
-                 ? (<Button className='w-25 m-5' variant={this.props.type} type='submit' disabled={false}>{this.props.children}</Button>) 
-                 : (<Button className='w-25 m-5' variant={this.props.type} type='submit' disabled={true}>{this.props.children}</Button>)}
-                 <Link to='/estates'><Button className='w-25 m-5' variant="secondary">Volver</Button></Link>
+                 ? (<Button className='w-25 m-4' variant={this.props.type} type='submit' disabled={false}>{this.props.children}</Button>) 
+                 : (<Button className='w-25 m-4' variant={this.props.type} type='submit' disabled={true}>{this.props.children}</Button>)}
+                 <Link to='/estates'><Button className='w-25 m-4' variant="secondary">Volver</Button></Link>
             </Container>
         )
     }

@@ -9,7 +9,7 @@ export default class FormItemClient extends React.Component{
         return(
             <Container className='mb-3'>
                         <h2 className='mb-3'>Datos Propietario</h2>
-                            <Container className='w-75' fluid="sm">
+                            <Container className='w-75' fluid='false'>
                                     <FormGroup className='w-75 mx-5' >
                                     <FormLabel >Buscar por id Cliente</FormLabel>
                                     <FormGroup className='w-100' >

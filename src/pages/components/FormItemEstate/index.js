@@ -9,7 +9,7 @@ export default class FormItemEstate extends React.Component{
         return(
             <Container className='mb-3'>
                 <h2 className='mb-3'>Datos Propiedad</h2>
-                <Container className='w-75' fluid="sm">
+                <Container className='w-75' fluid='false'd>
                     <FormGroup className='w-100 mx-5'>
                         <FormLabel>Imagen</FormLabel>
                         <FormControl  type='file' accept="image/png, image/gif, image/jpeg" />
