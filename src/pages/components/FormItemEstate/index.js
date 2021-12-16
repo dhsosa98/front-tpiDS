@@ -9,10 +9,10 @@ export default class FormItemEstate extends React.Component{
         return(
             <Container className='mb-3'>
                 <h2 className='mb-3'>Datos Propiedad</h2>
-                <Row  className='w-100 d-flex flex-row flex-wrap' fluid='false'>
+                <Row  className='w-100' fluid='false'>
                     <Col className='w-100 mx-5'>
                         <FormLabel>Imagen</FormLabel>
-                        <FormControl  type='file' accept="image/png, image/gif, image/jpeg" />
+                        <FormControl type='file' accept="image/png, image/gif, image/jpeg" />
                         <FormLabel>Medidas - Obligatorio</FormLabel>
                         <InputGroup >
                             <FormControl type='number' value={this.props.dataEstate.medida1} name='dataEstate-medida1' onChange={this.props.onChange} />
