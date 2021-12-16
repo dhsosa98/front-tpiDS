@@ -9,7 +9,7 @@ export default class FormItemLocation extends React.Component{
         return(
             <Container className='mb-3'>
             <h2 className='mb-3'>Ubicacion</h2>
-            <FormGroup className='d-flex'>
+            <Container className='w-75' fluid="sm">
                     <FormGroup className='w-100 mx-5'>
                         <FormLabel>Pais - Obligatorio</FormLabel>
                         <FormControl value={this.props.dataLocation.pais} name='dataLocation-pais' onChange={this.props.onChange} />
@@ -30,7 +30,7 @@ export default class FormItemLocation extends React.Component{
                         <FormLabel  >Depto</FormLabel>
                         <FormControl value={this.props.dataLocation.dpto} name='dataLocation-dpto' onChange={this.props.onChange}  />
                     </FormGroup>
-            </FormGroup>
+            </Container>
             </Container>
         )
     }

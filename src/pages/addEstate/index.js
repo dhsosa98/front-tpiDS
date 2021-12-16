@@ -154,11 +154,11 @@ class AddEstate extends React.Component{
 
     render(){
         return (
-        <div className='color-bc d-flex flex-row min-vh-100 ' >
+        <div className='color-bc d-flex flex-row flex-wrap' >
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success">
                     {this.modalText}
             </ModalWindow>
-            <NavBar className='min-vh-100' />
+            <NavBar />
             <Container>
                 <Container className='my-5'>
                     <h1>Agregar propiedad</h1>

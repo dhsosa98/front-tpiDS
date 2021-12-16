@@ -2,7 +2,7 @@ import React from 'react'
 import LoginForm from '../components/LoginForm'
 import userService from '../../services/userService'
 import {withRouter} from 'react-router-dom'
-import AuthContext from '../../AuthContext'
+import AuthContext from '../../AuthContex'
 import './styles.css'
 
 class Login extends React.Component {

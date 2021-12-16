@@ -10,7 +10,7 @@ export default class HeaderClientTable extends React.Component{
     render(){
         return(
             <Table style={{color: 'white', background: '#333', marginBottom: '-0.01em'}} className='text-center mt-5' id={this.props.propiedades[0].propietario.idPropietario}
-            responsive="lg">
+            responsive="sm">
             <thead>
                 <tr>
                     <th></th>
@@ -29,7 +29,7 @@ export default class HeaderClientTable extends React.Component{
                     <td>{'#'}{this.props.propiedades[0].propietario.idPropietario}</td>
                     <td>{this.props.propiedades[0].propietario.nombres}{', '}{this.props.propiedades[0].propietario.apellidos}</td>
                     <td className='text-center'>
-                    <Link to={'/register-estate?idClient='+this.props.propiedades[0].propietario.idPropietario}><Button className='w-75' variant='success'>Agregar Inmueble</Button></Link>
+                    <Link to={'/register-estate?idClient='+this.props.propiedades[0].propietario.idPropietario}><Button className='w-100' variant='success'>Agregar Inmueble</Button></Link>
                     </td>
                     <td>{this.props.propiedades[0].propietario.dni}</td>
                     <td>{this.props.propiedades[0].propietario.telefono}</td>

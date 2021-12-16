@@ -56,7 +56,7 @@ class UpdateEstate extends React.Component {
         async componentDidMount(){
             try{
                 const urlApiPropiedades='https://back-tpids.herokuapp.com/api/v1/'
-                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion/'
+                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion'
                 const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/propietarios/'
                 const config = {headers: {authorization: sessionStorage.getItem('token')}}
                 var {data: propiedad}  = await axios.get(urlApiPropiedades+this.state.param, config)
@@ -161,11 +161,11 @@ class UpdateEstate extends React.Component {
 
     render(){
         return (
-        <div className='color-bc d-flex flex-row min-vh-100 ' >
+        <div className='color-bc d-flex flex-row flex-wrap' >
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success" >
                 {this.modalText}
             </ModalWindow>
-            <NavBar className='min-vh-100' setToken={this.props.setToken} />
+            <NavBar  />
             <Container>
                 <Container className='my-5'>
                     <h1>Modificar propiedad</h1>

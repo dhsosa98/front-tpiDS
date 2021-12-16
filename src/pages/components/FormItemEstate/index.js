@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, FormLabel, FormGroup, InputGroup, FormControl, Container } from 'react-bootstrap'
+import {Row, Col, Form, FormLabel, FormGroup, InputGroup, FormControl, Container } from 'react-bootstrap'
 
 export default class FormItemEstate extends React.Component{
     constructor(props){
@@ -9,12 +9,12 @@ export default class FormItemEstate extends React.Component{
         return(
             <Container className='mb-3'>
                 <h2 className='mb-3'>Datos Propiedad</h2>
-                <FormGroup  className='d-flex'>
+                <Container className='w-75' fluid="sm">
                     <FormGroup className='w-100 mx-5'>
                         <FormLabel>Imagen</FormLabel>
-                        <FormControl type='file' accept="image/png, image/gif, image/jpeg" />
+                        <FormControl  type='file' accept="image/png, image/gif, image/jpeg" />
                         <FormLabel>Medidas - Obligatorio</FormLabel>
-                        <InputGroup>
+                        <InputGroup >
                             <FormControl type='number' value={this.props.dataEstate.medida1} name='dataEstate-medida1' onChange={this.props.onChange} />
                             <InputGroup.Text>X</InputGroup.Text>
                             <FormControl type='number' value={this.props.dataEstate.medida2} name='dataEstate-medida2' onChange={this.props.onChange} />
@@ -48,7 +48,7 @@ export default class FormItemEstate extends React.Component{
                         <FormLabel  >Servicios - Obligatorio</FormLabel>
                         <FormControl value={this.props.dataEstate.servicios} name='dataEstate-servicios' onChange={this.props.onChange} />    
                     </FormGroup>
-                </FormGroup>
+                </Container>
             </Container>
         )
     }
