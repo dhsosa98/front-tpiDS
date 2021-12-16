@@ -67,7 +67,7 @@ class AddEstate extends React.Component{
                         this.setState({dataClient: data, loading: false})
                         if (!this.state.search){
                         this.setState({search: !search})
-                        }
+                            }
                         }
                     else{
                         console.log(res)
@@ -85,6 +85,7 @@ class AddEstate extends React.Component{
     
         handleSubmitForm(e) {
             e.preventDefault()
+            this.setState({loading: true})
             const baseURLLocation = 'https://back-tpids.herokuapp.com/api/v1/registrarUbicacion'
             const baseURLEstate = 'https://back-tpids.herokuapp.com/api/v1/registrarPropiedad'
             const dataUbicacion = {...this.state.dataLocation}
@@ -103,6 +104,7 @@ class AddEstate extends React.Component{
                     delete estate["medida2"]
                     axios.post(baseURLEstate, estate, config).then(
                         res => {
+                            this.setState({loading: false})
                             console.log(res)
                             this.modalText = "Propiedad cargada exitosamente"
                             this.setState({isShow: true})
@@ -112,6 +114,7 @@ class AddEstate extends React.Component{
             ).catch(
                 res => {
                     if (res){
+                        this.setState({loading: false})
                         this.modalText = "No se pudo cargar la propiedad. Ya existe una propiedad en esa ubicacion"
                         this.setState({isShow: true})
                     }
@@ -121,6 +124,7 @@ class AddEstate extends React.Component{
         
         handleSearchClient(e) {
             e.preventDefault()
+            this.setState({loading: true})
             const clientID = this.state.dataClient.idPropietario
             const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
@@ -129,7 +133,7 @@ class AddEstate extends React.Component{
                     if (res.status = 204){
                         const {data} = res
                         const search = this.state.search
-                        this.setState({dataClient: data})                                 
+                        this.setState({dataClient: data, loading: false})                                 
                         if (!this.state.search){
                             this.setState({search: !search})
                         }
@@ -140,6 +144,7 @@ class AddEstate extends React.Component{
                     }  
                     ).catch(res=>{
                         if (!res.status){
+                            this.setState({loading: false})
                             this.modalText = "No existe propietario con ese ID"
                             this.setState({isShow: true})}})      
         }

@@ -93,6 +93,7 @@ class UpdateEstate extends React.Component {
     
         handleSubmitForm(e) {
             e.preventDefault()
+            this.setState({loading: true})
             const baseURLLocation = `https://back-tpids.herokuapp.com/api/v1/ubicacion/${this.state.param}`
             const baseURLEstate = `https://back-tpids.herokuapp.com/api/v1/${this.state.param}`
             const dataUbicacion = {...this.state.dataLocation}
@@ -111,6 +112,7 @@ class UpdateEstate extends React.Component {
                     delete estate["medida2"]
                     axios.put(baseURLEstate, estate, config).then(
                         res => {
+                            this.setState({loading: false})
                             console.log(res)
                             this.modalText = "Propiedad actualizada exitosamente"
                             this.setState({isShow: true})
@@ -120,6 +122,7 @@ class UpdateEstate extends React.Component {
             ).catch(
                 res => {
                     if (res){
+                        this.setState({loading: false})
                         this.modalText = "No se pudo actualizar la propiedad. Ya existe una propiedad en esa ubicacion"
                         this.setState({isShow: true})
                     }
@@ -129,6 +132,7 @@ class UpdateEstate extends React.Component {
         
         handleSearchClient(e) {
             e.preventDefault()
+            this.setState({loading: true})
             const clientID = this.state.dataClient.idPropietario
             const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
             const config = {headers: {authorization: sessionStorage.getItem('token')}}
@@ -136,6 +140,7 @@ class UpdateEstate extends React.Component {
                 res => {
                     if (res.status = 204){
                         const {data} = res
+                        this.setState({loading: false})
                         const search = this.state.search
                         this.setState({dataClient: data})                                 
                         if (!this.state.search){
@@ -148,6 +153,7 @@ class UpdateEstate extends React.Component {
                     }  
                     ).catch(res=>{
                         if (!res.status){
+                            this.setState({loading: false})
                             this.modalText = "No existe propietario con ese ID"
                             this.setState({isShow: true})}})      
         }

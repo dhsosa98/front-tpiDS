@@ -63,14 +63,17 @@ export default class Estates extends React.Component {
    }
 
     handleDelete(id){
+        this.setState({loading: true})
         const urlApiPropiedadesDelete = 'https://back-tpids.herokuapp.com/api/v1/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
         axios.delete(urlApiPropiedadesDelete + id, config).then(res=>{
+            this.setState({loading: false})
             this.setState({propiedadesPorClientes: 
                 this.state.propiedadesPorClientes.map(k => k.filter(e => e.idPropiedad !== id)).filter(p=>p!='')})
             }
         ).catch(res => {
             if (res){
+                this.setState({loading: false})
                 console.log('No hay propiedad con ese id')
             }}
         )
