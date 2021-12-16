@@ -5,6 +5,8 @@ import NavBar from '../components/NavBar'
 import ClientsTables from '../components/ClientsTables'
 import ModalWindow from '../components/ModalWindow'
 import './styles.css'
+import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min'
+import UpdateEstate from './../updateEstate'
 
 export default class Estates extends React.Component {
     constructor(props){
@@ -89,18 +91,25 @@ export default class Estates extends React.Component {
 
     render (){
         return (
-            <div className='color-bc d-flex flex-row flex-wrap ' >
-                <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
-                    {this.modalText}
-                </ModalWindow>
-                <NavBar className='' />
-                <Container className='d-flex align-items-center justify-content-center flex-column'>
-                    <h1 className='mt-5'>Listado Propiedades</h1>
-                    <Card className='mt-5 p-2 w-100'>
-                        <ClientsTables propiedadesPorClientes={this.state.propiedadesPorClientes} onDelete={this.handleShowModalDelete} />
-                    </Card>
-                </Container>
-            </div>
+            <Switch>
+                <Route exact path='/estates' >
+                    <div className='color-bc d-flex flex-row flex-wrap ' >
+                        <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
+                            {this.modalText}
+                        </ModalWindow>
+                        <NavBar className='' />
+                        <Container className='d-flex align-items-center justify-content-center flex-column'>
+                            <h1 className='mt-5'>Listado Propiedades</h1>
+                            <Card className='mt-5 p-2 w-100'>
+                                <ClientsTables propiedadesPorClientes={this.state.propiedadesPorClientes} onDelete={this.handleShowModalDelete} />
+                            </Card>
+                        </Container>
+                    </div>
+                </Route>
+                <Route path='/estates/:id' >  
+                    <UpdateEstate />      
+                </Route>
+            </Switch>
         )
     }
 }

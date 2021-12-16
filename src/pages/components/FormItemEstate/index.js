@@ -9,8 +9,8 @@ export default class FormItemEstate extends React.Component{
         return(
             <Container className='mb-3'>
                 <h2 className='mb-3'>Datos Propiedad</h2>
-                <Container className='w-75' fluid='false'>
-                    <FormGroup className='w-100 mx-5'>
+                <Row  className='w-100 d-flex flex-row flex-wrap' fluid='false'>
+                    <Col className='w-100 mx-5'>
                         <FormLabel>Imagen</FormLabel>
                         <FormControl  type='file' accept="image/png, image/gif, image/jpeg" />
                         <FormLabel>Medidas - Obligatorio</FormLabel>
@@ -30,9 +30,20 @@ export default class FormItemEstate extends React.Component{
                             <InputGroup.Text>$</InputGroup.Text>
                             <FormControl value={this.props.dataEstate.monto} name='dataEstate-monto' type='number' onChange={this.props.onChange} />
                         </InputGroup>
-                        
-                    </FormGroup>
-                    <FormGroup className='w-100 mx-5'>
+                        <FormLabel  >Servicios - Obligatorio</FormLabel>
+                        <FormControl value={this.props.dataEstate.servicios} name='dataEstate-servicios' onChange={this.props.onChange} />
+                    </Col>
+                    <Col className='w-100 mx-5'>
+                        {this.props.dataEstate.estado 
+                        && 
+                        <>
+                        <FormLabel  >Estado</FormLabel>
+                        <Form.Select defaultValue={this.props.dataEstate.estado} name='dataEstate-estado' className='w-50' aria-label="Floating label select example" onChange={this.props.onChange}>
+                            <option  value="Disponible">Disponible</option>
+                            <option value="No Disponible">No Disponible</option>
+                        </Form.Select>
+                        </>  
+                        }  
                         <FormLabel>Tipo - Obligatorio</FormLabel>
                         <Form.Select name='dataEstate-tipo' defaultValue={this.props.dataEstate.amueblado} className='w-50' aria-label="Floating label select example" onChange={this.props.onChange}>
                             <option value="Alquiler">Alquiler</option>
@@ -44,11 +55,9 @@ export default class FormItemEstate extends React.Component{
                             <option value="NO">NO</option>
                         </Form.Select>
                         <FormLabel>Artefactos - Obligatorio</FormLabel>
-                        <FormControl value={this.props.dataEstate.artefactos} name='dataEstate-artefactos' onChange={this.props.onChange} />
-                        <FormLabel  >Servicios - Obligatorio</FormLabel>
-                        <FormControl value={this.props.dataEstate.servicios} name='dataEstate-servicios' onChange={this.props.onChange} />    
-                    </FormGroup>
-                </Container>
+                        <FormControl value={this.props.dataEstate.artefactos} name='dataEstate-artefactos' onChange={this.props.onChange} />  
+                    </Col>
+                </Row>
             </Container>
         )
     }

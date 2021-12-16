@@ -34,6 +34,7 @@ class UpdateEstate extends React.Component {
                     antiguedad: '',
                     artefactos: '',
                     servicios: '',
+                    estado: '',
                 },
                dataLocation: {
                     pais: '',

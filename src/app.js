@@ -4,7 +4,6 @@ import Login from './pages/login'
 import Estates from './pages/estates'
 import Home from './pages/home'
 import AddEstate from './pages/addEstate'
-import UpdateEstate from './pages/updateEstate'
 import Register from './pages/Register'
 import AuthContext from './AuthContex'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -50,12 +49,8 @@ export default class App extends React.Component{
                     <Home />
                 </Route>
 
-                <Route exact path='/estates' >
+                <Route path='/estates' >
                     <Estates />
-                </Route>
-
-                <Route path='/estates/:id' >
-                    <UpdateEstate />
                 </Route>
 
                 <Route path='/register-estate' >
