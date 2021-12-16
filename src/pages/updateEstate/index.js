@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import NavBar from '../components/NavBar'
+import Loader from '../components/Loader'
 import ModalWindow from '../components/ModalWindow'
 import FormItemClient from '../components/FormItemClient'
 import FormItemEstate from '../components/FormItemEstate'
@@ -17,6 +18,7 @@ class UpdateEstate extends React.Component {
                 isShow:  false,
                 isConfirm: false,
                 search: true,
+                loading: true,
                 dataClient: {
                     idPropietario : '',
                     dni: '',
@@ -75,7 +77,7 @@ class UpdateEstate extends React.Component {
                 {!ubicacion["dpto"] && (ubicacion["dpto"] = '')}
                 this.setState({dataClient: propietario})
                 this.setState({dataEstate: propiedad})
-                this.setState({dataLocation: ubicacion})  
+                this.setState({dataLocation: ubicacion, loading: false})  
                 }
                 catch{
                     console.log('Error')
@@ -163,6 +165,7 @@ class UpdateEstate extends React.Component {
     render(){
         return (
         <div className='color-bc d-flex flex-row flex-wrap' >
+            <Loader loading={this.state.loading} />
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success" >
                 {this.modalText}
             </ModalWindow>

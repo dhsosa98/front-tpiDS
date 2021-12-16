@@ -4,6 +4,7 @@ import { Container, Form } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import NavBar from '../components/NavBar'
 import ModalWindow from '../components/ModalWindow'
+import Loader from '../components/Loader'
 import FormItemClient from '../components/FormItemClient'
 import FormItemEstate from '../components/FormItemEstate'
 import FormItemLocation from '../components/FormItemLocation'
@@ -16,6 +17,7 @@ class AddEstate extends React.Component{
                 isShow:  false,
                 isConfirm: false,
                 search: false,
+                loading: true,
                 dataClient: {
                     idPropietario : '',
                     dni: '',
@@ -62,7 +64,7 @@ class AddEstate extends React.Component{
                     if (res.status = 204){
                         const {data} = res
                         const search = this.state.search
-                        this.setState({dataClient: data})
+                        this.setState({dataClient: data, loading: false})
                         if (!this.state.search){
                         this.setState({search: !search})
                         }
@@ -155,6 +157,7 @@ class AddEstate extends React.Component{
     render(){
         return (
         <div className='color-bc d-flex flex-row flex-wrap' >
+            <Loader loading={this.state.loading} />
             <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="success">
                     {this.modalText}
             </ModalWindow>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Image, Nav, NavItem, ListGroup, Navbar} from 'react-bootstrap'
+import { Container, Image, Nav, NavItem, ListGroup, Navbar, Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import srcLogo from '../../../../public/logo.png'
@@ -25,7 +25,7 @@ class NavBar extends React.Component{
     handleToggle(e){
         {e ?
        this.setState({responsiveStyles: "min-vw-100", fixed: "", style: {opacity: "0.9"}, isShow: false}) : 
-       this.setState({responsiveStyles: "min-vh-100", fixed: "position-fixed", style: {opacity: ""}, isShow: true})}
+       setTimeout(()=>{this.setState({responsiveStyles: "min-vh-100", fixed: "position-fixed", style: {opacity: ""}, isShow: true})}, 300)}
     }
 
     render(){

@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React from 'react'
-import { Container, Card} from 'react-bootstrap'
+import { Modal, Spinner ,Container, Card, ModalBody} from 'react-bootstrap'
 import NavBar from '../components/NavBar'
 import ClientsTables from '../components/ClientsTables'
 import ModalWindow from '../components/ModalWindow'
 import './styles.css'
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min'
 import UpdateEstate from './../updateEstate'
+import Loader from '../components/Loader'
 
 export default class Estates extends React.Component {
     constructor(props){
@@ -15,7 +16,8 @@ export default class Estates extends React.Component {
             idDelete: '',
             isShow: false,
             propiedades: [],
-            propiedadesPorClientes: []
+            propiedadesPorClientes: [],
+            loading: true,
         }
         this.modalText = '¿Está seguro que desea Eliminar esta propiedad?'
         this.handleDelete = this.handleDelete.bind(this)
@@ -53,7 +55,7 @@ export default class Estates extends React.Component {
            aux = [...aux, propiedad]
         }
         p = [...p, aux]
-        this.setState({propiedadesPorClientes: p})
+        this.setState({loading: false, propiedadesPorClientes: p})
         }
         catch{
             console.log('No hay propiedades en la BD')
@@ -93,6 +95,7 @@ export default class Estates extends React.Component {
         return (
             <Switch>
                 <Route exact path='/estates' >
+                    <Loader loading={this.state.loading} />
                     <div className='color-bc d-flex flex-row flex-wrap ' >
                         <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
                             {this.modalText}
