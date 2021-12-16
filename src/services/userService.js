@@ -6,7 +6,6 @@ const urlAPIadd = 'https://back-tpids.herokuapp.com/api/v1/registro'
   const getUser = async (credentials) => {
     try{
         const {data} = await axios.post(urlAPI, credentials)
-        console.log(data)
         return data
     }
     catch{
