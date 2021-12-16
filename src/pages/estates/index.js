@@ -13,6 +13,7 @@ export default class Estates extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            type: "",
             idDelete: '',
             isShow: false,
             propiedades: [],
@@ -58,12 +59,15 @@ export default class Estates extends React.Component {
         this.setState({loading: false, propiedadesPorClientes: p})
         }
         catch{
-            console.log('No hay propiedades en la BD')
+            this.setState({loading: false, type: "success"})
+            this.modalText="Sesion vencida, vuelva a loguearse"
+            this.setState({isShow: true} )
         }              
    }
 
     handleDelete(id){
         this.setState({loading: true})
+        this.setState({type: "danger"})
         const urlApiPropiedadesDelete = 'https://back-tpids.herokuapp.com/api/v1/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
         axios.delete(urlApiPropiedadesDelete + id, config).then(res=>{
@@ -100,7 +104,7 @@ export default class Estates extends React.Component {
                 <Route exact path='/estates' >
                     <Loader loading={this.state.loading} />
                     <div className='color-bc d-flex flex-row flex-wrap ' >
-                        <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type="danger">
+                        <ModalWindow isShow={this.state.isShow} onHide={this.handleCloseModal} onConfirm={this.handleConfirmModal} type={this.state.type}>
                             {this.modalText}
                         </ModalWindow>
                         <NavBar className='' />

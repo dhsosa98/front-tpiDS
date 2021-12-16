@@ -14,6 +14,7 @@ class AddEstate extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+                isSend: false,
                 isShow:  false,
                 isConfirm: false,
                 search: false,
@@ -69,11 +70,13 @@ class AddEstate extends React.Component{
                         this.setState({search: !search})
                             }
                         }
-                    else{
-                        console.log(res)
-                        }
                     }  
-                    )    
+                    ).catch(res=>{ 
+                        if (res){this.setState({loading: false})
+                        this.modalText="Sesion vencida, vuelva a loguearse"
+                        this.setState({isShow: true} )}}
+
+                    )
     }
     
         handleChange(e){
@@ -96,7 +99,6 @@ class AddEstate extends React.Component{
             {(!dataUbicacion.dpto) && delete dataUbicacion["dpto"]}
             axios.post(baseURLLocation, dataUbicacion, config).then(
                 res => {
-                    console.log(res)
                     estate["ubicacion"] = res.data.ubic
                     estate["medidas"] = `${estate.medida1}x${estate.medida2}`
                     estate["propietario"] = this.state.dataClient.idPropietario
@@ -105,9 +107,16 @@ class AddEstate extends React.Component{
                     axios.post(baseURLEstate, estate, config).then(
                         res => {
                             this.setState({loading: false})
-                            console.log(res)
                             this.modalText = "Propiedad cargada exitosamente"
                             this.setState({isShow: true})
+                        }
+                    ).catch(
+                        res => {
+                            if (res){
+                                this.setState({loading: false})
+                                this.modalText = "No se pudo cargar la propiedad. Error en algún campo ingresado"
+                                this.setState({isShow: true})
+                            }
                         }
                     )
                 }
@@ -138,9 +147,6 @@ class AddEstate extends React.Component{
                             this.setState({search: !search})
                         }
                     }
-                    else{
-                        console.log(res)
-                        }
                     }  
                     ).catch(res=>{
                         if (!res.status){
@@ -152,11 +158,13 @@ class AddEstate extends React.Component{
     handleCloseModal(){
         this.setState({isShow: false})
         this.setState({isConfirm: false})
+        {this.state.isSend && window.location.reload(true)}
     }
     
     handleConfirmModal(){
         this.setState({isConfirm: true})
         this.setState({isShow: false})
+        {this.state.isSend && window.location.reload(true)}
     }
 
     render(){

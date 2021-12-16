@@ -14,6 +14,7 @@ class UpdateEstate extends React.Component {
     constructor(props){
         super(props)
         this.state={
+                isSend: false,
                 param: location.pathname.split("/estates/")[1],
                 isShow:  false,
                 isConfirm: false,
@@ -80,7 +81,8 @@ class UpdateEstate extends React.Component {
                 this.setState({dataLocation: ubicacion, loading: false})  
                 }
                 catch{
-                    console.log('Error')
+                    this.modalText="Sesion vencida, vuelva a loguearse"
+                    this.setState({isShow: true} )
                 }            
         }
 
@@ -104,7 +106,6 @@ class UpdateEstate extends React.Component {
             {(!dataUbicacion.dpto) && delete dataUbicacion["dpto"]}
             axios.put(baseURLLocation, dataUbicacion, config).then(
                 res => {
-                    console.log(res)
                     estate["ubicacion"] = res.data.ubic
                     estate["medidas"] = `${estate.medida1}x${estate.medida2}`
                     estate["propietario"] = this.state.dataClient.idPropietario
@@ -113,9 +114,16 @@ class UpdateEstate extends React.Component {
                     axios.put(baseURLEstate, estate, config).then(
                         res => {
                             this.setState({loading: false})
-                            console.log(res)
                             this.modalText = "Propiedad actualizada exitosamente"
                             this.setState({isShow: true})
+                        }
+                    ).catch(
+                        res => {
+                            if (res){
+                                this.setState({loading: false})
+                                this.modalText = "No se pudo actualizar la propiedad. Error en algun campo ingresado"
+                                this.setState({isShow: true})
+                            }
                         }
                     )
                 }
@@ -147,9 +155,6 @@ class UpdateEstate extends React.Component {
                             this.setState({search: !search})
                         }
                     }
-                    else{
-                        console.log(res)
-                        }
                     }  
                     ).catch(res=>{
                         if (!res.status){
@@ -161,11 +166,13 @@ class UpdateEstate extends React.Component {
     handleCloseModal(){
         this.setState({isShow: false})
         this.setState({isConfirm: false})
+        {this.state.isSend && window.location.reload(true)}
     }
     
     handleConfirmModal(){
         this.setState({isConfirm: true})
         this.setState({isShow: false})
+        {this.state.isSend && window.location.reload(true)}
     }
 
     render(){

@@ -10,7 +10,7 @@ const urlAPIadd = 'https://back-tpids.herokuapp.com/api/v1/registro'
         return data
     }
     catch{
-      console.log('Error raro')
+      console.log('Error')
     }
   }
 

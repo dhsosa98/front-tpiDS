@@ -32,7 +32,6 @@ class Login extends React.Component {
             }
             const data = await userService.getUser(user)
             if (data){
-                console.log(data)
                 this.context.logIn(data)
                 this.props.history.push("/")
             }
