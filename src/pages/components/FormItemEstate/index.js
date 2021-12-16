@@ -10,7 +10,7 @@ export default class FormItemEstate extends React.Component{
             <Container className='mb-3'>
                 <h2 className='mb-3'>Datos Propiedad</h2>
                 <Row  className='w-100' fluid='false'>
-                    <Col className='w-100 mx-5'>
+                    <Col className='w-100 mx-3'>
                         <FormLabel>Imagen</FormLabel>
                         <FormControl type='file' accept="image/png, image/gif, image/jpeg" />
                         <FormLabel>Medidas - Obligatorio</FormLabel>
@@ -33,7 +33,7 @@ export default class FormItemEstate extends React.Component{
                         <FormLabel  >Servicios - Obligatorio</FormLabel>
                         <FormControl value={this.props.dataEstate.servicios} name='dataEstate-servicios' onChange={this.props.onChange} />
                     </Col>
-                    <Col className='w-100 mx-5'>
+                    <Col className='w-100 mx-3'>
                         {this.props.dataEstate.estado 
                         && 
                         <>

@@ -10,7 +10,7 @@ export default class FormItemClient extends React.Component{
             <Container className='mb-3'>
                         <h2 className='mb-3'>Datos Propietario</h2>
                             <Row className='w-100' fluid='false'>
-                                <Col className='w-75 mx-5' >
+                                <Col className='w-50 me-5' >
                                     <FormLabel >Buscar por id Cliente</FormLabel>
                                     <FormGroup className='w-100' >
                                         <InputGroup>
@@ -22,7 +22,7 @@ export default class FormItemClient extends React.Component{
                                     {this.props.search && 
                                     (
                                     <>
-                                    <Col className='w-100 mx-5'>
+                                    <Col className='w-100 md-5'>
                                     <FormLabel>DNI</FormLabel>
                                         <FormControl value={this.props.dataClient.dni} name='dni' type='number' onChange={this.props.onChange} disabled={true}/>
                                         <FormLabel>Nombres</FormLabel>
@@ -30,7 +30,7 @@ export default class FormItemClient extends React.Component{
                                         <FormLabel>Apellidos</FormLabel>
                                         <FormControl value={this.props.dataClient.apellidos} name='apellidos' onChange={this.props.onChange} disabled={true}/> 
                                         </Col>
-                                        <Col className='w-100 mx-5'>
+                                        <Col className='w-100 md-5'>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl value={this.props.dataClient.email}  name='email' type='email' onChange={this.props.onChange} disabled={true}/>
                                         <FormLabel>Teléfono</FormLabel>

@@ -10,7 +10,7 @@ export default class FormItemLocation extends React.Component{
             <Container className='mb-3'>
             <h2 className='mb-3'>Ubicacion</h2>
             <Row className='w-100' fluid='false'>
-                    <Col className='w-100 mx-5'>
+                    <Col className='w-100 mx-3'>
                         <FormLabel>Pais - Obligatorio</FormLabel>
                         <FormControl value={this.props.dataLocation.pais} name='dataLocation-pais' onChange={this.props.onChange} />
                         <FormLabel>Provincia - Obligatorio</FormLabel>
@@ -20,7 +20,7 @@ export default class FormItemLocation extends React.Component{
                         <FormLabel  >Barrio</FormLabel>
                         <FormControl value={this.props.dataLocation.barrio} name='dataLocation-barrio' onChange={this.props.onChange} />
                     </Col>
-                    <Col className='w-100 mx-5'>
+                    <Col className='w-100 mx-3'>
                         <FormLabel  >Calle - Obligatorio</FormLabel>
                         <FormControl value={this.props.dataLocation.direccion} name='dataLocation-direccion' onChange={this.props.onChange}/>
                         <FormLabel  >Numero - Obligatorio</FormLabel>
