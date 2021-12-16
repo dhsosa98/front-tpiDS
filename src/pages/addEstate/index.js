@@ -102,7 +102,7 @@ class AddEstate extends React.Component{
                     axios.post(baseURLEstate, estate, config).then(
                         res => {
                             console.log(res)
-                            this.modalText = "Formulario enviado exitosamente"
+                            this.modalText = "Propiedad cargada exitosamente"
                             this.setState({isShow: true})
                         }
                     )

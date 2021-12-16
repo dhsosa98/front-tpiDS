@@ -11,7 +11,7 @@ class NavBar extends React.Component{
     static contextType = AuthContext;
     constructor(props){
         super(props)
-        this.state = {responsiveStyles: "", fixed: "position-fixed"}
+        this.state = {responsiveStyles: "min-vh-100", fixed: "position-fixed", style: {opacity: ""}, isShow: true}
         this.closeSesion = this.closeSesion.bind(this)
         this.handleToggle = this.handleToggle.bind(this)
     }
@@ -24,25 +24,25 @@ class NavBar extends React.Component{
 
     handleToggle(e){
         {e ?
-       this.setState({responsiveStyles: "min-vw-100", fixed: ""}) : 
-       this.setState({responsiveStyles: "", fixed: "position-fixed"})}
+       this.setState({responsiveStyles: "min-vw-100", fixed: "", style: {opacity: "0.9"}, isShow: false}) : 
+       this.setState({responsiveStyles: "min-vh-100", fixed: "position-fixed", style: {opacity: ""}, isShow: true})}
     }
 
     render(){
         return (
-            <Navbar collapseOnSelect style={{padding: "0"}} onToggle={e=>{this.handleToggle(e)}} className={this.state.fixed} expand="lg"  >
+            <Navbar collapseOnSelect style={{padding: "0"}} onToggle={e=>{this.handleToggle(e)}} className={this.state.fixed} expand="lg" >
                 <div className=' h-100' >
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" style={{background: '#363740'}} />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" className=' bg-transparent' style={{background: '#363740', opacity: "0.5"}} />
                 <Navbar.Collapse id='responsive-navbar-nav'    >
-                <Nav className={`d-flex flex-column text-white min-vh-100 ${this.state.responsiveStyles}`} style={{background: '#363740'}} >
-                    <Container className='text-center my-3'>
+                <Nav className={`d-flex flex-column text-white ${this.state.responsiveStyles}`} style={{background: '#363740'}} >
+                     {this.state.isShow && <Container className='text-center my-5'>
                         <Container className='img-login text-center my-3'>
                             <Image className='img-login' src={srcUser} height="90" width="90" />
                         </Container>
                         <h5 className='text_nav-bar'>James Fernand</h5>
                         <h5 className='text_nav-bar'>Agente Inmobiliario</h5>
-                    </Container>
-                    <ListGroup className='mt-5' >
+                    </Container>}
+                    <ListGroup >
                     <Link to='/' className='link-item'><NavItem><span className='fi-rr-home mx-2'></span>Inicio</NavItem></Link>
                     <Link to='/estates' className='link-item'><NavItem><span className='fi-rr-building mx-2'></span>Propiedades</NavItem></Link>
                     <Link to='/' className='link-item'><NavItem><span className='fi-rr-users mx-2'></span>Clientes</NavItem></Link>
@@ -50,9 +50,9 @@ class NavBar extends React.Component{
                     <NavItem onClick={this.closeSesion} ><span className='fi-rr-user-remove mx-2'></span>Cerrar Sesión</NavItem>
                     </ListGroup>
 
-                    <Container className='text-center position-relative' style={{top: '25vh'}}>
+                    {this.state.isShow && <Container className='text-center position-relative' style={{top: '25vh'}}>
                         <Image src={srcLogo} height="80" />
-                    </Container>
+                    </Container>}
                     </Nav>
                     </Navbar.Collapse>
                     </div>

@@ -56,7 +56,7 @@ class UpdateEstate extends React.Component {
         async componentDidMount(){
             try{
                 const urlApiPropiedades='https://back-tpids.herokuapp.com/api/v1/'
-                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion'
+                const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion/'
                 const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/propietarios/'
                 const config = {headers: {authorization: sessionStorage.getItem('token')}}
                 var {data: propiedad}  = await axios.get(urlApiPropiedades+this.state.param, config)
@@ -109,7 +109,7 @@ class UpdateEstate extends React.Component {
                     axios.put(baseURLEstate, estate, config).then(
                         res => {
                             console.log(res)
-                            this.modalText = "Formulario enviado exitosamente"
+                            this.modalText = "Propiedad actualizada exitosamente"
                             this.setState({isShow: true})
                         }
                     )
@@ -117,7 +117,7 @@ class UpdateEstate extends React.Component {
             ).catch(
                 res => {
                     if (res){
-                        this.modalText = "No se pudo cargar la propiedad. Ya existe una propiedad en esa ubicacion"
+                        this.modalText = "No se pudo actualizar la propiedad. Ya existe una propiedad en esa ubicacion"
                         this.setState({isShow: true})
                     }
                 }
