@@ -8,7 +8,6 @@ const path = require('path');
   output: {
     path:path.resolve(__dirname, "dist"),
     filename: "app.bundle.js",
-    publicPath: "/"
   },
    devtool: 'inline-source-map',
    devServer: {
