@@ -14,7 +14,7 @@ export default class RegisterForm extends React.Component {
                     {this.props.isShow && 
                     <Container className=' bg-danger text-center border-5 p-1 bg-opacity-75 my-3'>
                         <strong><h5>Por favor ingrese otro email,</h5> 
-                                <h5>el email ya existe</h5></strong>
+                                <h5>     el email ya existe      </h5></strong>
                     </Container>}
                     <FormGroup className="mb-3" controlId="formBasicEmail">
                         <FormLabel>Correo Electrónico</FormLabel>

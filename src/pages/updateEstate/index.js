@@ -80,9 +80,11 @@ class UpdateEstate extends React.Component {
                 this.setState({dataEstate: propiedad})
                 this.setState({dataLocation: ubicacion, loading: false})  
                 }
-                catch{
-                    this.modalText="Sesion vencida, vuelva a loguearse"
-                    this.setState({isShow: true} )
+                catch(error){
+                    console.log(error.message)
+                    {error.message.includes(403) && (this.modalText="Sesion vencida, vuelva a loguearse")}
+                    {error.message.includes(404) && (this.modalText="Error, la propiedad no existe")}
+                    this.setState({isShow: true, loading: false})
                 }            
         }
 
@@ -118,8 +120,8 @@ class UpdateEstate extends React.Component {
                             this.setState({isShow: true})
                         }
                     ).catch(
-                        res => {
-                            if (res){
+                        e => {
+                            if (e){
                                 this.setState({loading: false})
                                 this.modalText = "No se pudo actualizar la propiedad. Error en algun campo ingresado"
                                 this.setState({isShow: true})
@@ -128,8 +130,8 @@ class UpdateEstate extends React.Component {
                     )
                 }
             ).catch(
-                res => {
-                    if (res){
+                e => {
+                    if (e){
                         this.setState({loading: false})
                         this.modalText = "No se pudo actualizar la propiedad. Ya existe una propiedad en esa ubicacion"
                         this.setState({isShow: true})
@@ -156,21 +158,21 @@ class UpdateEstate extends React.Component {
                         }
                     }
                     }  
-                    ).catch(res=>{
-                        if (!res.status){
+                    ).catch(e=>{
+                        if (!e.status){
                             this.setState({loading: false})
                             this.modalText = "No existe propietario con ese ID"
                             this.setState({isShow: true})}})      
         }
     
     handleCloseModal(){
-        this.setState({isShow: false})
+        this.setState({isShow: false, loading: false})
         this.setState({isConfirm: false})
         {this.state.isSend && window.location.reload(true)}
     }
     
     handleConfirmModal(){
-        this.setState({isConfirm: true})
+        this.setState({isConfirm: true, loading: false})
         this.setState({isShow: false})
         {this.state.isSend && window.location.reload(true)}
     }

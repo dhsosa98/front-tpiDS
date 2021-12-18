@@ -71,10 +71,12 @@ class AddEstate extends React.Component{
                             }
                         }
                     }  
-                    ).catch(res=>{ 
-                        if (res){this.setState({loading: false})
-                        this.modalText="Sesion vencida, vuelva a loguearse"
-                        this.setState({isShow: true} )}}
+                    ).catch(e=>{
+                        console.log(e.message.includes(404))
+                        {e.message.includes(403) && (this.modalText="Sesion vencida, vuelva a loguearse")}
+                        {e.message.includes(404) && (this.modalText="Error, la propiedad no existe")}
+                        this.setState({loading: false})
+                        this.setState({isShow: true} )}
 
                     )
     }
