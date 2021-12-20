@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import { HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Login from './pages/login'
 import Estates from './pages/estates'
 import Home from './pages/home'
@@ -20,7 +20,7 @@ export default class App extends React.Component{
     render() {
         const {isAuth} = this.context
         return (
-        <BrowserRouter>
+        <HashRouter>
             <Switch>
                  {(!isAuth) && (
                 <>
@@ -59,7 +59,7 @@ export default class App extends React.Component{
                 </>
                  )  : <Redirect to='/login' />}
             </Switch>   
-        </BrowserRouter>
+        </HashRouter>
         )
     }
 }
