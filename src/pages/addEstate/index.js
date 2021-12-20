@@ -57,7 +57,7 @@ class AddEstate extends React.Component{
     }
 
     componentDidMount(){
-        const clientID = location.search.split("?idClient=")[1]
+        const clientID = this.props.location.search.split("?idClient=")[1]
         const baseURL = 'https://back-tpids.herokuapp.com/api/v1/propietarios/'
         const config = {headers: {authorization: sessionStorage.getItem('token')}}
             axios.get(baseURL + clientID, config).then(
@@ -110,7 +110,7 @@ class AddEstate extends React.Component{
                         res => {
                             this.setState({loading: false})
                             this.modalText = "Propiedad cargada exitosamente"
-                            this.setState({isShow: true})
+                            this.setState({isShow: true, isSend: true})
                         }
                     ).catch(
                         res => {

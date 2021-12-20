@@ -15,7 +15,7 @@ class UpdateEstate extends React.Component {
         super(props)
         this.state={
                 isSend: false,
-                param: location.pathname.split("/estates/")[1],
+                param: this.props.location.pathname.split("/estates/")[1],
                 isShow:  false,
                 isConfirm: false,
                 search: true,
@@ -59,6 +59,7 @@ class UpdateEstate extends React.Component {
     }
         async componentDidMount(){
             try{
+                console.log(this.props.location)
                 const urlApiPropiedades='https://back-tpids.herokuapp.com/api/v1/'
                 const urlApiUbicacion='https://back-tpids.herokuapp.com/api/v1/ubicacion/'
                 const urlApiPropietario='https://back-tpids.herokuapp.com/api/v1/propietarios/'
@@ -117,7 +118,7 @@ class UpdateEstate extends React.Component {
                         res => {
                             this.setState({loading: false})
                             this.modalText = "Propiedad actualizada exitosamente"
-                            this.setState({isShow: true})
+                            this.setState({isShow: true, isSend: true})
                         }
                     ).catch(
                         e => {
